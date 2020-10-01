@@ -6,7 +6,8 @@ public class Player {
     public ArrayList<Animal> animals;
     public ArrayList<Food> foods;
 
-    public Player(){
+    public Player(String name){
+        this.name = name;
         this.animals = new ArrayList<>();
         this.foods = new ArrayList<>();
     }

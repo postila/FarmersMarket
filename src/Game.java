@@ -1,16 +1,17 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     Scanner scanner = new Scanner(System.in);
     public int numberOfRounds;
-    public ArrayList<Player> players = new ArrayList<>();
+    public Player player;
+    public ArrayList<Player> players;
 
-    public Game(){
-        // CONSTRUCTOR
+    public Game(ArrayList<Player> players){
+        this.players = players;
     }
 
     public void addPlayer(Player player){
         this.players.add(player);
     }
+
 }
