@@ -12,6 +12,11 @@ public abstract class Animal {
     double healthDecrease = 0.0;
     public Random random = new Random();
 
+    public Animal(String name, String gender){
+        this.name = name;
+        this.gender = Gender.valueOf(gender.toUpperCase());
+    }
+
     public void living(){
         System.out.println("Your animals health level is: " + health);
         if(health > 0){
