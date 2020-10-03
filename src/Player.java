@@ -18,9 +18,17 @@ public class Player {
     public void addAnimal(Animal animal){
         animals.add(animal);    // Add animal to players list
     }
+    public void addFood(Food food){
+        foods.add(food);    // Add food to players list
+    }
     public void showAnimal(){
         for(var a : animals){
             System.out.println(a.getClass().getSimpleName());
+        }
+    }
+    public void feedAnimal(){
+        for (var a : animals){
+            a.increaseHealth();
         }
     }
 
@@ -31,7 +39,11 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            System.out.println(a);
+            System.out.println(a.getClass().getSimpleName() + " " + a.name + a.health);
+            a.living();
+        }
+        for(var f : foods){
+            System.out.println(f.getClass().getSimpleName());
         }
     }
 }

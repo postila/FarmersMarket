@@ -4,7 +4,6 @@ public class Game {
     Scanner scanner = new Scanner(System.in);
     public int numberOfRounds;
     public ArrayList<Player> players;
-    public Store store = new Store();
 
     public Game(ArrayList<Player> players, int numberOfRounds){
         this.players = players;
@@ -34,20 +33,26 @@ public class Game {
                     System.out.println("Something went wrong. Pick a number from the menu!");
                 }
                 switch (userChoice) {
-                    case 1 -> {
-                        System.out.println("You decided to buy an animal!");
-                        buyAnimal(player);
+                    case 1 -> buyAnimal(player);// Creates a new animal and add to players list of animals
+                    case 2 -> buyFood(player);    // Buy food and add to players list
+                    case 3 -> {
+                        feedAnimal(player);
                         player.showPlayerInfo();
                     }
-                    case 2 -> System.out.println("Okay, so you want to buy some food.");
-                    case 3 -> System.out.println("Dinner time!");
                 }
             }
         }
     }
 
     public void buyAnimal(Player player){
-        player.addAnimal(store.createAnimal());
+        Animal myNewAnimal = Store.createAnimal();
+        player.addAnimal(myNewAnimal);
     }
-
+    public void buyFood(Player player){
+        Food myNewFood = Store.deliverFood();
+        player.addFood(myNewFood);
+    }
+    public void feedAnimal(Player player){
+        player.feedAnimal();
+    }
 }
