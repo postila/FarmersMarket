@@ -22,15 +22,22 @@ public class Game {
                         "\n3. Feed animal" +
                         "\n4. Mate animal" +
                         "\n5. Sell animal");
-                var userChoice = 0;
+                int userChoice = 0;
                 try{
                     Scanner scanner = new Scanner(System.in);
                     userChoice = Integer.parseInt(scanner.next());
+                    if(userChoice < 1 || userChoice > 5){
+                        System.out.println("You have to choose a number from the list.");
+                        return;
+                    }
                 } catch (Exception e){
-                    System.out.println("Something went wrong. Did you choose something from the list?");
+                    System.out.println("Something went wrong. Pick a number from the menu!");
                 }
                 switch (userChoice) {
-                    case 1 -> System.out.println("You decided to buy an animal!");
+                    case 1 -> {
+                        System.out.println("You decided to buy an animal!");
+                        player.store.createAnimal();   // NullPointerException
+                    }
                     case 2 -> System.out.println("Okay, so you want to buy some food.");
                     case 3 -> System.out.println("Dinner time!");
                 }
