@@ -40,6 +40,7 @@ public abstract class Animal {
         System.out.println("The amount of life that should be lost if animal not fed: " + (int)healthDecrease);
     }
     public int increaseHealth(){
-        return (int)(health * 1.1);
+        health = health * 1.1;
+        return (int)health;
     }
 }

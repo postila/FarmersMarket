@@ -6,7 +6,6 @@ public class Player {
     public int money;
     public ArrayList<Animal> animals;
     public ArrayList<Food> foods;
-    public Store store;
 
     public Player(String name){
         this.name = name;
@@ -21,14 +20,18 @@ public class Player {
     public void addFood(Food food){
         foods.add(food);    // Add food to players list
     }
-    public void showAnimal(){
+    public void notFeedingAnimal(){
         for(var a : animals){
-            System.out.println(a.getClass().getSimpleName());
+            a.decreaseHealth();
         }
     }
     public void feedAnimal(){
         for (var a : animals){
-            a.increaseHealth();
+            System.out.println("Old Health: " + (int)a.health);
+            if(a.health <= 100){    // If animals health is 100 or more, no increase will happen
+                a.increaseHealth();
+            }
+            System.out.println("New Health: " + (int)a.health);
         }
     }
 
@@ -39,9 +42,10 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            System.out.println(a.getClass().getSimpleName() + " " + a.name + a.health);
+            System.out.println(a.getClass().getSimpleName() + " " + a.name + " " + a.health);
             a.living();
         }
+        System.out.println("--------------------------");
         for(var f : foods){
             System.out.println(f.getClass().getSimpleName());
         }
