@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player {
     public String name;
     public int money;
     public ArrayList<Animal> animals;
     public ArrayList<Food> foods;
+    public Store store;
 
     public Player(String name){
         this.name = name;
@@ -14,7 +16,7 @@ public class Player {
     }
 
     public void addAnimal(Animal animal){
-        animals.add(animal);
+        animals.add(animal);    // Add animal to players list
     }
     public void showAnimal(){
         for(var a : animals){
@@ -23,8 +25,11 @@ public class Player {
     }
 
     public void showPlayerInfo(){
-        System.out.println(this.name + ", you have " + money + " sek." +
-                "\n YOUR ANIMAL LIST:");
+        System.out.println(this.name + " information" +
+                "\n-----------------------------\n" +
+                "[Money]\t " + this.money + "SEK" +
+                "\n-----------------------------\n" +
+                "[Animal List]");
         for(var a : animals){
             System.out.println(a);
         }
