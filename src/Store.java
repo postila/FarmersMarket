@@ -37,4 +37,24 @@ public class Store {
         }
         return null;
     }
+    public Food deliverFood(){
+        System.out.println("What food would you like to buy? \n1. Hay\n2. Grass\n3. Grain");
+        var foodChoice = Integer.parseInt(scanner.next());
+        try{
+            switch (foodChoice){
+                case 1 -> {
+                    return new Hay();
+                }
+                case 2 -> {
+                    return new Grass();
+                }
+                case 3 -> {
+                    return new Grain();
+                }
+            }
+        } catch (Exception e){
+            System.out.println("You did not choose one of the following food alternatives.");
+        }
+        return null;
+    }
 }
