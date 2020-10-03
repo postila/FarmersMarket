@@ -1,11 +1,9 @@
 import java.util.Scanner;
 
 public class Store {
-    public Animal animal;
-    public Food food;
-    Scanner scanner = new Scanner(System.in);
 
-    public Animal createAnimal(){
+    static public Animal createAnimal(){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("What kind of animal would you like to create?" +
                 "\n1. Horse" +
                 "\n2. Cow" +
@@ -37,7 +35,8 @@ public class Store {
         }
         return null;
     }
-    public Food deliverFood(){
+    static public Food deliverFood(){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("What food would you like to buy? \n1. Hay\n2. Grass\n3. Grain");
         var foodChoice = Integer.parseInt(scanner.next());
         try{
