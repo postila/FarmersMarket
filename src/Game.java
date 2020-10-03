@@ -4,7 +4,7 @@ public class Game {
     Scanner scanner = new Scanner(System.in);
     public int numberOfRounds;
     public ArrayList<Player> players;
-    public Store store;
+    public Store store = new Store();
 
     public Game(ArrayList<Player> players, int numberOfRounds){
         this.players = players;
@@ -15,8 +15,8 @@ public class Game {
     public void mainGame(){
         for(int i = 4; i <numberOfRounds; i++){
             for(Player player : players){
-                System.out.println("It is your turn " + player.name + "." +
-                        "\n What would you like to do?" +
+                System.out.println("It is your turn " + player.name + ".\n" +
+                        "\nWhat would you like to do?" +
                         "\n1. Buy animal" +
                         "\n2. Buy food" +
                         "\n3. Feed animal" +
@@ -36,7 +36,8 @@ public class Game {
                 switch (userChoice) {
                     case 1 -> {
                         System.out.println("You decided to buy an animal!");
-                        player.store.createAnimal();   // NullPointerException
+                        buyAnimal(player);
+                        player.showPlayerInfo();
                     }
                     case 2 -> System.out.println("Okay, so you want to buy some food.");
                     case 3 -> System.out.println("Dinner time!");
