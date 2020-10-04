@@ -15,24 +15,23 @@ public class Game {
     public void mainGame(){
         for(int i = 4; i <numberOfRounds; i++){
             for(Player player : players){
-                System.out.println("It is your turn " + player.name + ".\n" +
-                        "\nWhat would you like to do?" +
-                        "\n1. Buy animal" +
-                        "\n2. Buy food" +
-                        "\n3. Feed animal" +
-                        "\n4. Mate animal" +
-                        "\n5. Sell animal");
+                System.out.println("It is your turn " + player.name + ". What would you like to do?" +
+                        "\n[1] Buy animal" +
+                        "\n[2] Buy food" +
+                        "\n[3] Feed animal" +
+                        "\n[4] Mate animal" +
+                        "\n[5] Sell animal");
                 int userChoice = 0;
-                try{
-                    Scanner scanner = new Scanner(System.in);
-                    userChoice = Integer.parseInt(scanner.next());
-                    if(userChoice < 1 || userChoice > 5){
-                        System.out.println("You have to choose a number from the list.");
-                        return;
+                    try {
+                        Scanner scanner = new Scanner(System.in);
+                        userChoice = Integer.parseInt(scanner.next());
+                        if (userChoice < 1 || userChoice > 5) {
+                            System.out.println("You have to choose a number from the list.");
+                            return;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Something went wrong. Pick a number from the menu!");
                     }
-                } catch (Exception e){
-                    System.out.println("Something went wrong. Pick a number from the menu!");
-                }
                 if(userChoice != 3){    // If user don't pick 3, animals will lose life value
                     for(var a : player.animals){
                         a.decreaseHealth();
@@ -40,9 +39,28 @@ public class Game {
                     }
                 }
                 switch (userChoice) {
-                    case 1 -> buyAnimal(player);// Creates a new animal and add to players list of animals
-                    case 2 -> buyFood(player);    // Buy food and add to players list
+                    case 1 -> {
+                        while(true) {
+                            buyAnimal(player);  // Creates a new animal and add to players list of animals
+                            System.out.println("Would you like to buy another animal?");
+                            String yesNo = scanner.next();
+                            if(yesNo.toUpperCase().equals("NO")){
+                                break;
+                            }
+                        }
+                    }
+                    case 2 -> {
+                        while (true) {
+                            buyFood(player);    // Buy food and add to players list
+                            System.out.println("Would you like to buy some more food?");
+                            String yesNo = scanner.next();
+                            if (yesNo.toUpperCase().equals("NO")) {
+                                break;
+                            }
+                        }
+                    }
                     case 3 -> feedAnimal(player);   // Increase animals life value
+                    case 4 -> player.showPlayerInfo();
                 }
             }
         }
