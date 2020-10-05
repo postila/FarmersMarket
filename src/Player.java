@@ -66,6 +66,7 @@ public class Player {
         animal.increaseHealth();
     }
     public void mateAnimal(){
+
     }
 
     public void showPlayerInfo(){
@@ -75,8 +76,7 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            System.out.println(a.getClass().getSimpleName() + " " + a.name + " " + (int)a.health);
-            a.living();
+            System.out.println(a.getName() + " the " + a.getClass().getSimpleName().toLowerCase() + ", " + (int)a.health);
         }
         System.out.println("--------------------------");
         for(var f : foods){

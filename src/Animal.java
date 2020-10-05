@@ -54,6 +54,10 @@ public abstract class Animal {
         return price;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public Animal mateTwoAnimals(Animal animal) {
             if (animal.equals(this)) {
                 System.out.println("I can not mate with myself!");
