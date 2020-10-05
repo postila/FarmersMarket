@@ -19,7 +19,6 @@ public abstract class Animal {
     }
 
     public void living() {
-        //System.out.println("Your animals health level is: " + health);
         if (health > 0) {
             System.out.println("Your animal is still alive.");
             return;
@@ -44,7 +43,12 @@ public abstract class Animal {
         System.out.println("The amount of life that should be lost if animal not fed: " + (int)healthDecrease);
     }
     public void increaseHealth(){
+        if(health <= 100){
         health = (int)health * 1.1;
+            if(health > 100){
+                health = 100;
+            }
+        }
     }
     public int getPrice(){
         return price;
