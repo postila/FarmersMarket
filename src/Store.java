@@ -40,8 +40,9 @@ public class Store {
     public Food deliverFood(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("What food would you like to buy? \n1. Hay\n2. Grass\n3. Grain");
-        int foodChoice = Integer.parseInt(scanner.next());
+        //int foodChoice = Integer.parseInt(scanner.next());
             try {
+                int foodChoice = Integer.parseInt(scanner.next());
                 switch (foodChoice) {
                     case 1 -> {
                         return new Hay();
