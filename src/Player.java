@@ -9,7 +9,7 @@ public class Player {
 
     public Player(String name){
         this.name = name;
-        this.money = 0;
+        this.money = 500000;
         this.animals = new ArrayList<>();
         this.foods = new ArrayList<>();
     }
@@ -23,6 +23,7 @@ public class Player {
     public void notFeedingAnimal(){
         for(var a : animals){
             a.decreaseHealth();
+            a.changeHealth();
         }
     }
     public void feedAnimal(){
@@ -30,9 +31,17 @@ public class Player {
             System.out.println("Old Health: " + (int)a.health);
             if(a.health <= 100){    // If animals health is 100 or more, no increase will happen
                 a.increaseHealth();
+                if(a.health > 100){
+                    a.health = 100; // An animals can only be 100
+                    System.out.println("New Health: " + (int)a.health);
+                    return;
+                }
             }
             System.out.println("New Health: " + (int)a.health);
         }
+    }
+    public void mateAnimal(){
+
     }
 
     public void showPlayerInfo(){
@@ -42,7 +51,7 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            System.out.println(a.getClass().getSimpleName() + " " + a.name + " " + a.health);
+            System.out.println(a.getClass().getSimpleName() + " " + a.name + " " + (int)a.health);
             a.living();
         }
         System.out.println("--------------------------");
