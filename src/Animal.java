@@ -11,7 +11,6 @@ public abstract class Animal {
     public boolean isAlive = true;
     double healthDecrease = 0.0;
     public Random random = new Random();
-    public Player owner;
     public int price;
 
     public Animal(String name, String gender){
@@ -19,15 +18,14 @@ public abstract class Animal {
         this.gender = Gender.valueOf(gender.toUpperCase());
     }
 
-    public void living(){
+    public void living() {
         //System.out.println("Your animals health level is: " + health);
-        if(health > 0){
+        if (health > 0) {
             System.out.println("Your animal is still alive.");
             return;
         }
         isAlive = false;
         System.out.println("Your animal is dead.");
-        //owner.animals.remove(this); // Removes animal from players list
     }
     public void changeHealth(){
         health -= (healthDecrease);
