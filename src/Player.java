@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Player {
     public String name;
@@ -31,6 +30,11 @@ public class Player {
         }
         if(animal instanceof Llama){
             money = (money-animal.getPrice());
+        }
+    }
+    public void removeDeadAnimal() {
+        if (!animals.isEmpty()) {
+            animals.removeIf(animal -> animal.health == 0);
         }
     }
     public void addFood(Food food){

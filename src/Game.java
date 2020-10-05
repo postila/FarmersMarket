@@ -35,6 +35,7 @@ public class Game {
                     }
                 if(userChoice != 3){    // If user don't pick 3, animals will lose life value
                     player.notFeedingAnimal();
+                    player.removeDeadAnimal();
                 }
                 switch (userChoice) {
                     case 1 -> {
