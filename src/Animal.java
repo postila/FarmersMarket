@@ -11,6 +11,8 @@ public abstract class Animal {
     public boolean isAlive = true;
     double healthDecrease = 0.0;
     public Random random = new Random();
+    public Player owner;
+    public int price = 0;
 
     public Animal(String name, String gender){
         this.name = name;
@@ -18,29 +20,49 @@ public abstract class Animal {
     }
 
     public void living(){
-        System.out.println("Your animals health level is: " + health);
-        if(health > 0){
+        //System.out.println("Your animals health level is: " + health);
+        if(health >= 0){
             System.out.println("Your animal is still alive.");
             return;
         }
         isAlive = false;
         System.out.println("Your animal is dead.");
-        // NOTE: remember to remove animal from players list.
+        owner.animals.remove(this); // Removes animal from players list
     }
     public void changeHealth(){
-        health -= healthDecrease;
+        health -= Math.round(healthDecrease);
     }
+
     // randomize a percentage between 10-30 for health loss
     public void decreaseHealth(){
         healthDecrease = random.nextInt(21) + 10;
         //  Convert the unit of loss into percentage
         healthDecrease /= 100;
         // Calculates how much loss an animal should lose
-        healthDecrease = (int)health * healthDecrease;
+        healthDecrease = Math.round(health * healthDecrease);
         System.out.println("The amount of life that should be lost if animal not fed: " + (int)healthDecrease);
     }
-    public int increaseHealth(){
-        health = health * 1.1;
-        return (int)health;
+    public void increaseHealth(){
+        health = (int)health * 1.1;
+    }
+    public void getPrice(){
+        System.out.println(price);
+    }
+
+    public Animal mateTwoAnimals(Animal animal) {
+            if (animal.equals(this)) {
+                System.out.println("I can not mate with myself!");
+                return null;
+            }
+            if (animal.getClass().equals(this.getClass()) && animal.gender != this.gender) {
+                boolean yesNo = random.nextBoolean();
+                if (!yesNo) {
+                    System.out.println("Unsuccessful!");
+                    return null;
+                } else {
+                    System.out.println("Mating was successful! Chose a name: ");
+                }
+            }
+        return null;    // If the mating was unsuccessful
     }
 }
