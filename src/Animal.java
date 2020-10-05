@@ -21,16 +21,16 @@ public abstract class Animal {
 
     public void living(){
         //System.out.println("Your animals health level is: " + health);
-        if(health >= 0){
+        if(health > 0){
             System.out.println("Your animal is still alive.");
             return;
         }
         isAlive = false;
         System.out.println("Your animal is dead.");
-        owner.animals.remove(this); // Removes animal from players list
+        //owner.animals.remove(this); // Removes animal from players list
     }
     public void changeHealth(){
-        health -= Math.round(healthDecrease);
+        health -= (healthDecrease);
     }
 
     // randomize a percentage between 10-30 for health loss
@@ -40,6 +40,9 @@ public abstract class Animal {
         healthDecrease /= 100;
         // Calculates how much loss an animal should lose
         healthDecrease = Math.round(health * healthDecrease);
+        if(healthDecrease < 1){
+            healthDecrease = 1; // So that animal life value always lose something
+        }
         System.out.println("The amount of life that should be lost if animal not fed: " + (int)healthDecrease);
     }
     public void increaseHealth(){
