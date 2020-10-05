@@ -1,3 +1,4 @@
+import javax.net.ssl.HostnameVerifier;
 import java.util.*;
 
 public class Player {
@@ -55,16 +56,24 @@ public class Player {
             a.changeHealth();
         }
     }
-    public void feedAnimal(){
-        for (var a : animals){
-            if(a.health <= 100){    // If animals health is 100 or more, no increase will happen
+    public void feedHay() {
+        for (var a : animals) {
+            if(a instanceof Horse || a instanceof Llama || a instanceof Sheep)
+            a.increaseHealth();
+        }
+    }
+    public void feedGrass() {
+        for (var a : animals) {
+            if(a instanceof Cow){
                 a.increaseHealth();
-                if(a.health > 100){
-                    a.health = 100; // An animals can only be 100
-                    continue;
-                }
             }
-            System.out.println("New Health: " + (int)a.health);
+        }
+    }
+    public void feedGrain(){
+        for (var a : animals) {
+            if(a instanceof Pig || a instanceof Horse || a instanceof Llama){
+                a.increaseHealth();
+            }
         }
     }
     public void mateAnimal(){

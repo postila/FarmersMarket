@@ -41,7 +41,7 @@ public class Game {
                     case 1 -> {
                         while(true) {
                             buyAnimal(player);  // Creates a new animal and add to players list of animals
-                            System.out.println("Would you like to buy another animal?");
+                            System.out.println("Buy another animal? (YES/NO)");
                             String yesNo = scanner.next();
                             if(yesNo.toUpperCase().equals("NO")){
                                 break;
@@ -51,14 +51,17 @@ public class Game {
                     case 2 -> {
                         while (true) {
                             buyFood(player);    // Buy food and add to players list
-                            System.out.println("Would you like to buy some more food?");
+                            System.out.println("Buy more food? (YES/NO)");
                             String yesNo = scanner.next();
                             if (yesNo.toUpperCase().equals("NO")) {
                                 break;
                             }
                         }
                     }
-                    case 3 -> feedAnimal(player);   // Increase animals life value
+                    case 3 ->{
+                        feedAnimal(player);   // Increase animals life value
+                        player.showPlayerInfo();
+                    }
                     case 4 -> player.showPlayerInfo();
                 }
             }
@@ -74,7 +77,36 @@ public class Game {
         player.addFood(myNewFood);
     }
     public void feedAnimal(Player player){
-        player.feedAnimal();
+        System.out.println("[ENTER THE TYPE OF FOOD YOU LIKE TO FEED YOUR ANIMALS]");
+        for(var f : player.foods){
+            System.out.println("[" + f.getClass().getSimpleName() + "]");
+        }
+        try{
+        var userChoiceOfFood = scanner.next();
+        if(userChoiceOfFood.toUpperCase().equals("HAY")){
+            for(var a : player.animals){
+                if(a instanceof Horse || a instanceof Llama || a instanceof Sheep){
+                    player.feedHay();
+                }
+            }
+        }
+        if(userChoiceOfFood.toUpperCase().equals("GRASS")){
+            for(var a : player.animals){
+                if(a instanceof Cow){
+                    player.feedGrass();
+                }
+            }
+        }
+        if(userChoiceOfFood.toUpperCase().equals("GRAIN")){
+            for(var a : player.animals){
+                if(a instanceof Pig || a instanceof Horse || a instanceof Llama){
+                    player.feedGrain();
+                }
+            }
+        }
+    } catch (Exception e){
+            System.out.println("You gave the wrong input!");
+        }
     }
     public void mateAnimal(Player player){
         player.mateAnimal();
