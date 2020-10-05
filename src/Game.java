@@ -4,6 +4,7 @@ public class Game {
     Scanner scanner = new Scanner(System.in);
     public int numberOfRounds;
     public ArrayList<Player> players;
+    public Store store = new Store();
     public Animal animal;
 
     public Game(ArrayList<Player> players, int numberOfRounds){
@@ -33,10 +34,7 @@ public class Game {
                         System.out.println("Something went wrong. Pick a number from the menu!");
                     }
                 if(userChoice != 3){    // If user don't pick 3, animals will lose life value
-                    for(var a : player.animals){
-                        a.decreaseHealth();
-                        a.changeHealth();
-                    }
+                    player.notFeedingAnimal();
                 }
                 switch (userChoice) {
                     case 1 -> {
@@ -67,14 +65,17 @@ public class Game {
     }
 
     public void buyAnimal(Player player){
-        Animal myNewAnimal = Store.createAnimal();
+        Animal myNewAnimal = store.createAnimal();
         player.addAnimal(myNewAnimal);
     }
     public void buyFood(Player player){
-        Food myNewFood = Store.deliverFood();
+        Food myNewFood = store.deliverFood();
         player.addFood(myNewFood);
     }
     public void feedAnimal(Player player){
         player.feedAnimal();
+    }
+    public void mateAnimal(Player player){
+        player.mateAnimal();
     }
 }
