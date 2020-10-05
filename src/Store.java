@@ -33,6 +33,7 @@ public class Store {
                 case 5 -> {
                     return new Llama(name, gender);
                 }
+                default -> System.out.println("You did not chose an animal alternative.");
             }
         return null;
     }
