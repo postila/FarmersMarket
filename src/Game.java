@@ -6,6 +6,12 @@ public class Game {
     public ArrayList<Player> players;
     public Store store = new Store();
 
+    ArrayList<Horse> horseList = new ArrayList<>();
+    ArrayList<Cow> cowList = new ArrayList<>();
+    ArrayList<Pig> pigList = new ArrayList<>();
+    ArrayList<Sheep> sheepList = new ArrayList<>();
+    ArrayList<Llama> llamaList = new ArrayList<>();
+
     public Game(ArrayList<Player> players, int numberOfRounds){
         this.players = players;
         this.numberOfRounds = numberOfRounds;
@@ -23,7 +29,6 @@ public class Game {
                         userChoice = Integer.parseInt(scanner.next());
                         if (userChoice < 1 || userChoice > 5) {
                             System.out.println("You have to choose a number from the list.");
-
                         }
                     } catch (Exception e) {
                         System.out.println("Something went wrong. Pick a number from the menu!");
@@ -53,11 +58,12 @@ public class Game {
                             }
                         }
                     }
-                    case 3 ->{
+                    case 3 -> {
                         feedAnimal(player);   // Increase animals life value
                         player.showPlayerInfo();
                     }
-                    case 4 -> player.showPlayerInfo();
+                    case 4 -> mateAnimal(player);
+                    case 5 -> player.showPlayerInfo();
                 }
             }
         }
@@ -71,34 +77,53 @@ public class Game {
         Food myNewFood = store.deliverFood();
         player.addFood(myNewFood);
     }
-    public void feedAnimal(Player player){
+    public void feedAnimal(Player player) {
         System.out.println("[ENTER THE TYPE OF FOOD YOU LIKE TO FEED YOUR ANIMALS]");
-        for(var f : player.foods){
+        for (var f : player.foods) {
             System.out.println("[" + f.getClass().getSimpleName() + "]");
         }
-        try {
-            var userChoiceOfFood = scanner.next();
-            for (var a : player.animals){
-                if (userChoiceOfFood.toUpperCase().equals("HAY")) {
-                    if(a instanceof Horse || a instanceof Llama || a instanceof Sheep){
-                        player.feedHay(a);
+            try {
+                var userChoiceOfFood = scanner.next();
+                for (var a : player.animals) {
+                    if (userChoiceOfFood.toUpperCase().equals("HAY")) {
+                        if (a instanceof Horse || a instanceof Llama || a instanceof Sheep) {
+                            player.feedHay(a);
+                        }
+                    }
+                    if (userChoiceOfFood.toUpperCase().equals("GRASS")) {
+                        if (a instanceof Cow) {
+                            player.feedGrass(a);
+                        }
+                    }
+                    if (userChoiceOfFood.toUpperCase().equals("GRAIN")) {
+                        if (a instanceof Pig || a instanceof Horse)
+                            player.feedGrain(a);
                     }
                 }
-                if (userChoiceOfFood.toUpperCase().equals("GRASS")) {
-                    if(a instanceof Cow){
-                        player.feedGrass(a);
-                    }
-                }
-                if (userChoiceOfFood.toUpperCase().equals("GRAIN")) {
-                    if(a instanceof Pig || a instanceof Horse)
-                player.feedGrain(a);
-                }
-        }
-    } catch (Exception e){
-            System.out.println("You gave the wrong input!");
-        }
+            } catch (Exception e) {
+                System.out.println("You gave the wrong input!");
+            }
     }
     public void mateAnimal(Player player){
-        player.mateAnimal();
+        for(var a : player.animals){
+                // Add animal to specific Arraylist of same class.
+                // NOTE: Check if both male and female is contained in list.
+                // If yes, try to mate animals.
+            if(a instanceof Horse){
+                horseList.add((Horse)a);
+            }
+            if(a instanceof Cow){
+                cowList.add((Cow)a);
+            }
+            if(a instanceof Pig){
+                pigList.add((Pig)a);
+            }
+            if(a instanceof Sheep){
+                sheepList.add((Sheep)a);
+            }
+            if(a instanceof Llama){
+                llamaList.add((Llama)a);
+            }
+        }
     }
 }
