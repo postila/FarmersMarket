@@ -35,6 +35,15 @@ public class Player {
     }
     public void addFood(Food food){
         foods.add(food);    // Add food to players list
+        if(food instanceof Hay){
+            money = (money - food.getFoodPrice());
+        }
+        if(food instanceof Grass){
+            money = (money - food.getFoodPrice());
+        }
+        if(food instanceof Grain){
+            money = (money - food.getFoodPrice());
+        }
     }
     public void notFeedingAnimal(){
         for(var a : animals){
