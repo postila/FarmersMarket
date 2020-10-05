@@ -5,7 +5,6 @@ public class Game {
     public int numberOfRounds;
     public ArrayList<Player> players;
     public Store store = new Store();
-    public Animal animal;
 
     public Game(ArrayList<Player> players, int numberOfRounds){
         this.players = players;
@@ -17,18 +16,14 @@ public class Game {
         for(int i = 4; i <numberOfRounds; i++){
             for(Player player : players){
                 System.out.println("It is your turn " + player.name + ". What would you like to do?" +
-                        "\n[1] Buy animal" +
-                        "\n[2] Buy food" +
-                        "\n[3] Feed animal" +
-                        "\n[4] Mate animal" +
-                        "\n[5] Sell animal");
+                        "\n[1] Buy animal" + "\n[2] Buy food" + "\n[3] Feed animal" + "\n[4] Mate animal" + "\n[5] Sell animal");
                 int userChoice = 0;
                     try {
                         Scanner scanner = new Scanner(System.in);
                         userChoice = Integer.parseInt(scanner.next());
                         if (userChoice < 1 || userChoice > 5) {
                             System.out.println("You have to choose a number from the list.");
-                            return;
+
                         }
                     } catch (Exception e) {
                         System.out.println("Something went wrong. Pick a number from the menu!");
@@ -81,28 +76,23 @@ public class Game {
         for(var f : player.foods){
             System.out.println("[" + f.getClass().getSimpleName() + "]");
         }
-        try{
-        var userChoiceOfFood = scanner.next();
-        if(userChoiceOfFood.toUpperCase().equals("HAY")){
-            for(var a : player.animals){
-                if(a instanceof Horse || a instanceof Llama || a instanceof Sheep){
-                    player.feedHay();
+        try {
+            var userChoiceOfFood = scanner.next();
+            for (var a : player.animals){
+                if (userChoiceOfFood.toUpperCase().equals("HAY")) {
+                    if(a instanceof Horse || a instanceof Llama || a instanceof Sheep){
+                        player.feedHay(a);
+                    }
                 }
-            }
-        }
-        if(userChoiceOfFood.toUpperCase().equals("GRASS")){
-            for(var a : player.animals){
-                if(a instanceof Cow){
-                    player.feedGrass();
+                if (userChoiceOfFood.toUpperCase().equals("GRASS")) {
+                    if(a instanceof Cow){
+                        player.feedGrass(a);
+                    }
                 }
-            }
-        }
-        if(userChoiceOfFood.toUpperCase().equals("GRAIN")){
-            for(var a : player.animals){
-                if(a instanceof Pig || a instanceof Horse || a instanceof Llama){
-                    player.feedGrain();
+                if (userChoiceOfFood.toUpperCase().equals("GRAIN")) {
+                    if(a instanceof Pig || a instanceof Horse)
+                player.feedGrain(a);
                 }
-            }
         }
     } catch (Exception e){
             System.out.println("You gave the wrong input!");

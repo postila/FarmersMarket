@@ -56,25 +56,14 @@ public class Player {
             a.changeHealth();
         }
     }
-    public void feedHay() {
-        for (var a : animals) {
-            if(a instanceof Horse || a instanceof Llama || a instanceof Sheep)
-            a.increaseHealth();
-        }
+    public void feedHay(Animal animal) {
+        animal.increaseHealth();
     }
-    public void feedGrass() {
-        for (var a : animals) {
-            if(a instanceof Cow){
-                a.increaseHealth();
-            }
-        }
+    public void feedGrass(Animal animal) {
+        animal.increaseHealth();
     }
-    public void feedGrain(){
-        for (var a : animals) {
-            if(a instanceof Pig || a instanceof Horse || a instanceof Llama){
-                a.increaseHealth();
-            }
-        }
+    public void feedGrain(Animal animal){
+        animal.increaseHealth();
     }
     public void mateAnimal(){
     }
