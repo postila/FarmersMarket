@@ -4,7 +4,7 @@ public class Cow extends Animal{
         super(name,gender);
         super.price = 12000;
     }
-    public void getPrice(){
-        System.out.println(this.price);
+    public int getPrice(){
+        return this.price;
     }
 }

@@ -16,6 +16,22 @@ public class Player {
 
     public void addAnimal(Animal animal){
         animals.add(animal);    // Add animal to players list
+            // Changes players money amount when player buy animal
+        if(animal instanceof Horse){
+            money = (money-animal.getPrice());
+        }
+        if(animal instanceof Cow){
+            money = (money-animal.getPrice());
+        }
+        if(animal instanceof Pig){
+            money = (money-animal.getPrice());
+        }
+        if(animal instanceof Sheep){
+            money = (money-animal.getPrice());
+        }
+        if(animal instanceof Llama){
+            money = (money-animal.getPrice());
+        }
     }
     public void addFood(Food food){
         foods.add(food);    // Add food to players list
@@ -28,20 +44,17 @@ public class Player {
     }
     public void feedAnimal(){
         for (var a : animals){
-            System.out.println("Old Health: " + (int)a.health);
             if(a.health <= 100){    // If animals health is 100 or more, no increase will happen
                 a.increaseHealth();
                 if(a.health > 100){
                     a.health = 100; // An animals can only be 100
-                    System.out.println("New Health: " + (int)a.health);
-                    return;
+                    continue;
                 }
             }
             System.out.println("New Health: " + (int)a.health);
         }
     }
     public void mateAnimal(){
-
     }
 
     public void showPlayerInfo(){

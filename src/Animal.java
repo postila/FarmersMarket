@@ -12,7 +12,7 @@ public abstract class Animal {
     double healthDecrease = 0.0;
     public Random random = new Random();
     public Player owner;
-    public int price = 0;
+    public int price;
 
     public Animal(String name, String gender){
         this.name = name;
@@ -45,8 +45,8 @@ public abstract class Animal {
     public void increaseHealth(){
         health = (int)health * 1.1;
     }
-    public void getPrice(){
-        System.out.println(price);
+    public int getPrice(){
+        return price;
     }
 
     public Animal mateTwoAnimals(Animal animal) {
