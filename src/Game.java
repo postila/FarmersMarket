@@ -75,7 +75,13 @@ public class Game {
     }
     public void buyFood(Player player){
         Food myNewFood = store.deliverFood();
-        player.addFood(myNewFood);
+        if(!player.foods.contains(myNewFood)) {
+            player.addFood(myNewFood);
+        }
+        else {
+            var index = player.foods.indexOf(myNewFood);    // To get the index of where the specific food is located
+            player.foods.set(index, myNewFood);     // Replace old index with new amount
+        }
     }
     public void feedAnimal(Player player) {
         System.out.println("[ENTER THE TYPE OF FOOD YOU LIKE TO FEED YOUR ANIMALS]");

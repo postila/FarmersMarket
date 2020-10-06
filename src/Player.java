@@ -41,13 +41,13 @@ public class Player {
     public void addFood(Food food){
         foods.add(food);    // Add food to players list
         if(food instanceof Hay){
-            money = (money - food.getFoodPrice());
+            money = (money - food.getFoodPrice() * food.getAmount());
         }
         if(food instanceof Grass){
-            money = (money - food.getFoodPrice());
+            money = (money - food.getFoodPrice() * food.getAmount());
         }
         if(food instanceof Grain){
-            money = (money - food.getFoodPrice());
+            money = (money - food.getFoodPrice() * food.getAmount());
         }
     }
     public void notFeedingAnimal(){
@@ -76,11 +76,11 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            System.out.println(a.getName() + " the " + a.getClass().getSimpleName().toLowerCase() + ", " + (int)a.health);
+            System.out.println("The " + a.getClass().getSimpleName().toLowerCase() + ", " + (int)a.health);
         }
         System.out.println("--------------------------");
         for(var f : foods){
-            System.out.println(f.getClass().getSimpleName());
+            System.out.println(f.getClass().getSimpleName() + " Amount: " + f.getAmount() + " kg.");
         }
     }
 }
