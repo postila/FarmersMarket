@@ -40,6 +40,14 @@ public class Player {
     }
     public void addFood(Food food){
         foods.add(food);    // Add food to players list
+            // Trying to figure out how to check if list of Foods already contains an instance of a subclass
+        var getIndex = foods.indexOf(food);
+        System.out.println(getIndex);
+        var oldAmount = foods.set(getIndex, food);
+        System.out.println(oldAmount.toString());
+        var oldAmountFood = oldAmount.getAmount();
+        System.out.println(oldAmountFood);
+
         if(food instanceof Hay){
             money = (money - food.getFoodPrice() * food.getAmount());
         }
@@ -66,7 +74,6 @@ public class Player {
         animal.increaseHealth();
     }
     public void mateAnimal(){
-
     }
 
     public void showPlayerInfo(){
