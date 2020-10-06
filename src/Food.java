@@ -7,7 +7,6 @@ public abstract class Food {
     }
     public void setAmount(int kg){
        amount = kg;
-       System.out.println(amount);
     }
     public int getAmount(){
         return this.amount;
