@@ -44,18 +44,17 @@ public class Store {
             int foodChoice = Integer.parseInt(scanner.next());
                 switch (foodChoice) {
                     case 1 -> {
-                        System.out.println("How many kilos if hay do you want to buy?");
+                        System.out.println("How many kilos of hay do you want to buy?");
                         var kilos = Integer.parseInt(scanner.next());
-
-                        return new Hay(kilos);
+                            return new Hay(kilos);
                     }
                     case 2 -> {
-                        System.out.println("How many kilos if grass do you want to buy?");
+                        System.out.println("How many kilos of grass do you want to buy?");
                         var kilos = Integer.parseInt(scanner.next());
                         return new Grass(kilos);
                     }
                     case 3 -> {
-                        System.out.println("How many kilos if grain do you want to buy?");
+                        System.out.println("How many kilos of grain do you want to buy?");
                         var kilos = Integer.parseInt(scanner.next());
                         return new Grain(kilos);
                     }
