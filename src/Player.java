@@ -39,15 +39,20 @@ public class Player {
         }
     }
     public void addFood(Food food){
-        foods.add(food);    // Add food to players list
-            // Trying to figure out how to check if list of Foods already contains an instance of a subclass
-        var getIndex = foods.indexOf(food);
-        System.out.println(getIndex);
-        var oldAmount = foods.set(getIndex, food);
-        System.out.println(oldAmount.toString());
-        var oldAmountFood = oldAmount.getAmount();
-        System.out.println(oldAmountFood);
-
+        var typeOfFood = food.getClass();
+        Food foundFood = null;
+        for(var foodInstance : foods){
+            if(foodInstance.getClass().equals(typeOfFood)){
+                foundFood = foodInstance;
+            }
+        }
+        if(foundFood == null){
+            foods.add(food);    // Add food to players list
+        }
+        else {
+            // If type of food already exist in players food list
+            foundFood.setAmount(foundFood.getAmount() + food.getAmount());
+        }
         if(food instanceof Hay){
             money = (money - food.getFoodPrice() * food.getAmount());
         }
@@ -83,7 +88,7 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            System.out.println("The " + a.getClass().getSimpleName().toLowerCase() + ", " + (int)a.health);
+            System.out.println("The " + a.getClass().getSimpleName().toLowerCase() + ", " + a.name + " " + (int)a.health);
         }
         System.out.println("--------------------------");
         for(var f : foods){
