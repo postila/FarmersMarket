@@ -5,8 +5,9 @@ public abstract class Food {
     public int getFoodPrice(){
         return price;
     }
-    public int setAmount(int kg){
-        return this.amount += kg;
+    public void setAmount(int kg){
+       amount = kg;
+       System.out.println(amount);
     }
     public int getAmount(){
         return this.amount;
