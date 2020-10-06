@@ -12,8 +12,7 @@ public class Store {
                     "\n[5] LLAMA \t|  10.000 SEK" );
         var animalChoice = scanner.nextInt();
         System.out.println("Choose a name:");
-        var name = scanner.nextLine();
-        scanner.nextLine(); // Added so scanner do not bug
+        var name = scanner.next();
         System.out.println("Choose a gender, (female/male): ");
         var gender = scanner.next();
 
