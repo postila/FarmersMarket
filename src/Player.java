@@ -9,7 +9,7 @@ public class Player {
 
     public Player(String name){
         this.name = name;
-        this.money = 10000;
+        this.money = 500000;
         this.animals = new ArrayList<>();
         this.foods = new ArrayList<>();
     }
@@ -47,7 +47,18 @@ public class Player {
         money = (money - food.getFoodPrice() * food.getAmount());
     }
     public void reduceFood(Food food, int kilos){
-        food.setAmount(food.getAmount() - kilos);
+        var typeOfFood = food.getClass();
+        Food foundFood = null;
+        for (var foodInstance : foods){
+            if(foodInstance.getClass().equals(typeOfFood)){
+                foundFood = foodInstance;   // If food is found in players list of foods, it's set to chosen Food type
+            }
+        }
+        if(foundFood == null){
+            System.out.println("Seems like you are out of " + food.getClass().getSimpleName() + "!");
+            return;
+        }
+        foundFood.setAmount(foundFood.getAmount() - kilos); // Changes players amount of a food
     }
     public void notFeedingAnimal(){
         for(var a : animals){
@@ -56,6 +67,7 @@ public class Player {
             a.animalDied();
         }
     }
+
     public void feedHay(Animal animal, int kg) {
         animal.increaseHealth(kg);
     }

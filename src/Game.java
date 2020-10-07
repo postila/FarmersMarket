@@ -57,36 +57,43 @@ public class Game {
         //  first check if player has enough money or not.
         store.deliverFood(player);
     }
-    public void feedAnimal (Player player){
+    public void feedAnimal (Player player) {
         int kilos = 0;
-        int userChoiceOfFood = 0;
-
-            for (var f : player.foods) {
-                System.out.println("[" + f.getClass().getSimpleName() + "]");
-            }
-            try {
-                userChoiceOfFood = Integer.parseInt(prompt("Choose what type of food you would like to feed: "));
-                kilos = Integer.parseInt(prompt("How many kilos?"));
-            } catch (Exception e) {
-                System.out.println("You gave the wrong input!");
-            }
-                for (var a : player.animals) {
-                    if (userChoiceOfFood == 1) {
-                        if (a instanceof Horse || a instanceof Llama || a instanceof Sheep) {
-                            player.feedHay(a, kilos);
-                        }
-                    }
-                    if (userChoiceOfFood == 2) {
-                        if (a instanceof Cow) {
-                            player.feedGrass(a, kilos);
-                        }
-                    }
-                    if (userChoiceOfFood == 3) {
-                        if (a instanceof Pig || a instanceof Horse)
-                            player.feedGrain(a, kilos);
-                    }
-                }
+        String userChoiceOfFood = "";
+        Food chosenFood;
+        for (var f : player.foods) {
+            System.out.println("[" + f.getClass().getSimpleName() + "]");
         }
+        try {
+            userChoiceOfFood = prompt("Choose what type of food you would like to feed: ");
+            kilos = Integer.parseInt(prompt("How many kilos?"));
+        } catch (Exception e) {
+            System.out.println("You gave the wrong input!");
+        }
+        for (var a : player.animals) {
+            if (userChoiceOfFood.toLowerCase().equals("hay")) {
+                if (a instanceof Horse || a instanceof Llama || a instanceof Sheep) {
+                    chosenFood = new Hay(kilos);
+                    player.feedHay(a, kilos);
+                    player.reduceFood(chosenFood, kilos);
+                }
+            }
+            if (userChoiceOfFood.toLowerCase().equals("grass")) {
+                if (a instanceof Cow) {
+                    chosenFood = new Grass(kilos);
+                    player.feedGrass(a, kilos);
+                    player.reduceFood(chosenFood, kilos);
+                }
+            }
+            if (userChoiceOfFood.toLowerCase().equals("grain")) {
+                if (a instanceof Pig || a instanceof Horse) {
+                    chosenFood = new Grain(kilos);
+                    player.feedGrain(a, kilos);
+                    player.reduceFood(chosenFood, kilos);
+                }
+            }
+        }
+    }
     public void mateAnimal (Player player){ }
     public String prompt(String question){
         System.out.println(question);
