@@ -5,20 +5,20 @@ public abstract class Animal {
         FEMALE,
         MALE
     }
-    public String name;
-    public Gender gender;
-    public double health = 100.0; // Health set to 100% from beginning.
-    public boolean isAlive = true;
-    double healthDecrease = 0.0;
-    public Random random = new Random();
-    public int price;
+    protected String name;
+    protected Gender gender;
+    protected double health = 100.0; // Health set to 100% from beginning.
+    protected boolean isAlive = true;
+    protected double healthDecrease = 0.0;
+    private final Random RANDOM = new Random();
+    protected int price;
 
     public Animal(String name, String gender){
         this.name = name;
         this.gender = Gender.valueOf(gender.toUpperCase());
     }
 
-    public void animalDie() {
+    public void animalDied() {
         if (health <= 0) {
             isAlive = false;
             System.out.println("Your animal is dead.");
@@ -28,7 +28,7 @@ public abstract class Animal {
         health -= (healthDecrease);
     }
     public void decreaseHealth(){
-        healthDecrease = random.nextInt(21) + 10;  // randomize a percentage between 10-30 for health loss
+        healthDecrease = RANDOM.nextInt(21) + 10;  // randomize a percentage between 10-30 for health loss
         healthDecrease /= 100;   //  Convert the unit of loss into percentage
         healthDecrease = (int)(health * healthDecrease);   // Calculates how much loss an animal should lose
         if(healthDecrease < 1){

@@ -2,10 +2,10 @@ import javax.net.ssl.HostnameVerifier;
 import java.util.*;
 
 public class Player {
-    public String name;
-    public int money;
-    public ArrayList<Animal> animals;
-    public ArrayList<Food> foods;
+    protected String name;
+    protected int money;
+    protected ArrayList<Animal> animals;
+    protected ArrayList<Food> foods;
 
     public Player(String name){
         this.name = name;
@@ -18,6 +18,7 @@ public class Player {
         if(money < animal.getPrice() || money == 0) {
             System.out.println("You do not have enough money to buy a " +
                     animal.getClass().getSimpleName().toLowerCase()+".");
+            return;
         }
         animals.add(animal);    // Add animal to players list if player has enough money
         money = (money - animal.getPrice());
@@ -52,7 +53,7 @@ public class Player {
         for(var a : animals){
             a.decreaseHealth();
             a.changeHealth();
-            a.animalDie();
+            a.animalDied();
         }
     }
     public void feedHay(Animal animal, int kg) {

@@ -1,10 +1,10 @@
 import java.util.*;
 
 public class Game {
-    Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
     public int numberOfRounds;
     public ArrayList<Player> players;
-    public Store store = new Store();
+    private final Store store = new Store();
 
     public Game(ArrayList<Player> players, int numberOfRounds) {
         this.players = players;
@@ -21,7 +21,7 @@ public class Game {
                     System.out.println("It is your turn " + player.name + ". Make a move!" +
                             "\n[1] Buy animal" + "\n[2] Buy food" + "\n[3] Feed animal" + "\n[4] Mate animal" + "\n[5] Sell animal");
 
-                    userChoice = Integer.parseInt(scanner.next());
+                    userChoice = Integer.parseInt(SCANNER.next());
                     if (userChoice < 1 || userChoice > 5) {
                         System.out.println("You have to choose a number from the list.");
                     }
@@ -48,9 +48,13 @@ public class Game {
     }
 
     public void buyAnimal(Player player) {
+        //  Menu should be out here, and when player choose animal it should
+        //  first check if player has enough money or not.
         store.createAnimal(player);
     }
     public void buyFood(Player player) {
+        //  Menu should be out here, and when player choose animal it should
+        //  first check if player has enough money or not.
         store.deliverFood(player);
     }
     public void feedAnimal (Player player){
@@ -86,7 +90,7 @@ public class Game {
     public void mateAnimal (Player player){ }
     public String prompt(String question){
         System.out.println(question);
-        return scanner.next();
+        return SCANNER.next();
     }
 }
 
