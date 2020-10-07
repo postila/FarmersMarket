@@ -9,29 +9,18 @@ public class Player {
 
     public Player(String name){
         this.name = name;
-        this.money = 500000;
+        this.money = 10000;
         this.animals = new ArrayList<>();
         this.foods = new ArrayList<>();
     }
 
     public void addAnimal(Animal animal){
-        animals.add(animal);    // Add animal to players list
-            // Changes players money amount when player buy animal
-        if(animal instanceof Horse){
-            money = (money-animal.getPrice());
+        if(money < animal.getPrice() || money == 0) {
+            System.out.println("You do not have enough money to buy a " +
+                    animal.getClass().getSimpleName().toLowerCase()+".");
         }
-        if(animal instanceof Cow){
-            money = (money-animal.getPrice());
-        }
-        if(animal instanceof Pig){
-            money = (money-animal.getPrice());
-        }
-        if(animal instanceof Sheep){
-            money = (money-animal.getPrice());
-        }
-        if(animal instanceof Llama){
-            money = (money-animal.getPrice());
-        }
+        animals.add(animal);    // Add animal to players list if player has enough money
+        money = (money - animal.getPrice());
     }
     public void removeDeadAnimal() {
         if (!animals.isEmpty()) {
@@ -53,34 +42,48 @@ public class Player {
             // If type of food already exist in players food list
             foundFood.setAmount(foundFood.getAmount() + food.getAmount());
         }
-        if(food instanceof Hay){
-            money = (money - food.getFoodPrice() * food.getAmount());
-        }
-        if(food instanceof Grass){
-            money = (money - food.getFoodPrice() * food.getAmount());
-        }
-        if(food instanceof Grain){
-            money = (money - food.getFoodPrice() * food.getAmount());
-        }
+        // decrease the right amount of money from players money
+        money = (money - food.getFoodPrice() * food.getAmount());
+    }
+    public void reduceFood(Food food, int kilos){
+        food.setAmount(food.getAmount() - kilos);
     }
     public void notFeedingAnimal(){
         for(var a : animals){
             a.decreaseHealth();
             a.changeHealth();
+            a.animalDie();
         }
     }
-    public void feedHay(Animal animal) {
-        animal.increaseHealth();
+    public void feedHay(Animal animal, int kg) {
+        animal.increaseHealth(kg);
     }
-    public void feedGrass(Animal animal) {
-        animal.increaseHealth();
+    public void feedGrass(Animal animal, int kg) {
+        animal.increaseHealth(kg);
     }
-    public void feedGrain(Animal animal){
-        animal.increaseHealth();
+    public void feedGrain(Animal animal, int kg){
+        animal.increaseHealth(kg);
     }
     public void mateAnimal(){
+        var scanner = new Scanner(System.in);
+        System.out.println("Pick one of your animals to mate:");
+        showPlayersAnimals();
+        var animalOne = scanner.next();
+        String animalTwo = null;
+
+        //  Check if animals exists in players list
+        for(var animal : animals) {
+            if (animal.name.toUpperCase().equals(animalOne.toUpperCase())) {
+                System.out.println("Who would you like to mate " + animal.name + " with?");
+            }
+        }
     }
 
+    public void showPlayersAnimals(){
+        for(var a : animals){
+            System.out.println(a.getClass().getSimpleName() + " " + a.name + " " + a.gender.name().toLowerCase());
+        }
+    }
     public void showPlayerInfo(){
         System.out.println(this.name + " information" +
                 "\n-----------------------------\n" +
