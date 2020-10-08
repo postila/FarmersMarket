@@ -94,7 +94,9 @@ public class Game {
             }
         }
     }
-    public void mateAnimal (Player player){ }
+    public void mateAnimal (Player player){
+        player.mateAnimal();
+    }
     public String prompt(String question){
         System.out.println(question);
         return SCANNER.next();

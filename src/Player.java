@@ -1,4 +1,3 @@
-import javax.net.ssl.HostnameVerifier;
 import java.util.*;
 
 public class Player {
@@ -6,6 +5,7 @@ public class Player {
     protected int money;
     protected ArrayList<Animal> animals;
     protected ArrayList<Food> foods;
+    private final Scanner scanner = new Scanner(System.in);
 
     public Player(String name){
         this.name = name;
@@ -13,10 +13,9 @@ public class Player {
         this.animals = new ArrayList<>();
         this.foods = new ArrayList<>();
     }
-
     public void addAnimal(Animal animal){
         if(money < animal.getPrice() || money == 0) {
-            System.out.println("You do not have enough money to buy a " +
+            print("You do not have enough money to buy a " +
                     animal.getClass().getSimpleName().toLowerCase()+".");
             return;
         }
@@ -67,7 +66,6 @@ public class Player {
             a.animalDied();
         }
     }
-
     public void feedHay(Animal animal, int kg) {
         animal.increaseHealth(kg);
     }
@@ -78,23 +76,39 @@ public class Player {
         animal.increaseHealth(kg);
     }
     public void mateAnimal(){
-        var scanner = new Scanner(System.in);
-        System.out.println("Pick one of your animals to mate:");
+        boolean twoAnimalsChosen = false;
         showPlayersAnimals();
-        var animalOne = scanner.next();
-        String animalTwo = null;
-
-        //  Check if animals exists in players list
-        for(var animal : animals) {
-            if (animal.name.toUpperCase().equals(animalOne.toUpperCase())) {
-                System.out.println("Who would you like to mate " + animal.name + " with?");
+        while(!twoAnimalsChosen) {
+            var animalOne = prompt("Which ones of your animals would you like to mate?");
+            Animal animalOneClass = null;
+            for (var animal : animals) {
+                if (animal.name.toUpperCase().equals(animalOne.toUpperCase())) {
+                    animalOneClass = animal;
+                    System.out.println(animalOneClass.getClass().getSimpleName() + " " + animalOneClass.gender);
+                }
+            }
+            var animalTwo = prompt("Choose another one of opposite gender.");
+            Animal animalTwoClass = null;
+            for (var animal : animals) {
+                if (animal.name.toUpperCase().equals(animalTwo.toUpperCase())) {
+                    animalTwoClass = animal;
+                    System.out.println(animalTwoClass.getClass().getSimpleName() + " " + animalTwoClass.gender);
+                }
+            }
+            if (animalOneClass == null || animalTwoClass == null) {
+                print("You don't seem to own an animal with this name.");
+            }
+            else if(!animalOneClass.getClass().equals(animalTwoClass.getClass()) || animalOneClass.gender.equals(animalTwoClass.gender)){
+                print("Animals most be of same kind & have opposites gender!");
+            } else {
+                print("It's possible to mate your animals!");
+                twoAnimalsChosen = true;
             }
         }
     }
-
     public void showPlayersAnimals(){
         for(var a : animals){
-            System.out.println(a.getClass().getSimpleName() + " " + a.name + " " + a.gender.name().toLowerCase());
+            print(a.getClass().getSimpleName() + " " + a.name + " " + a.gender.name().toLowerCase());
         }
     }
     public void showPlayerInfo(){
@@ -104,11 +118,18 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            System.out.println("The " + a.getClass().getSimpleName().toLowerCase() + ", " + a.name + " " + (int)a.health);
+            print("The " + a.getClass().getSimpleName().toLowerCase() + ", " + a.name + " " + (int)a.health);
         }
         System.out.println("--------------------------");
         for(var f : foods){
-            System.out.println(f.getClass().getSimpleName() + " Amount: " + f.getAmount() + " kg.");
+            print(f.getClass().getSimpleName() + " Amount: " + f.getAmount() + " kg.");
         }
+    }
+    public String prompt(String question){
+        System.out.println(question);
+        return scanner.nextLine();
+    }
+    public void print(String statement){
+        System.out.println(statement);
     }
 }
