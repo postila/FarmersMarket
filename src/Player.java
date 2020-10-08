@@ -83,16 +83,14 @@ public class Player {
             Animal animalOneClass = null;
             for (var animal : animals) {
                 if (animal.name.toUpperCase().equals(animalOne.toUpperCase())) {
-                    animalOneClass = animal;
-                    System.out.println(animalOneClass.getClass().getSimpleName() + " " + animalOneClass.gender);
+                    animalOneClass = animal;    // get first animals instance and save it
                 }
             }
             var animalTwo = prompt("Choose another one of opposite gender.");
             Animal animalTwoClass = null;
             for (var animal : animals) {
                 if (animal.name.toUpperCase().equals(animalTwo.toUpperCase())) {
-                    animalTwoClass = animal;
-                    System.out.println(animalTwoClass.getClass().getSimpleName() + " " + animalTwoClass.gender);
+                    animalTwoClass = animal;    // get second animal instance and save it
                 }
             }
             if (animalOneClass == null || animalTwoClass == null) {
@@ -102,6 +100,7 @@ public class Player {
                 print("Animals most be of same kind & have opposites gender!");
             } else {
                 print("It's possible to mate your animals!");
+                animalOneClass.mateTwoAnimals(animalTwoClass, this);
                 twoAnimalsChosen = true;
             }
         }
