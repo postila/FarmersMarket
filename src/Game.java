@@ -97,7 +97,12 @@ public class Game {
         }
     }
     public void mateAnimal (Player player){
-        player.mateAnimal();
+        if(!player.animals.isEmpty()) { // check if player has any animal
+            player.mateAnimal();
+        }
+        else {
+            System.out.println("Oh no.. Not a possible move.\nYou don't have any animals, " + player.name + ".");
+        }
     }
     public String prompt(String question){
         System.out.println(question);
