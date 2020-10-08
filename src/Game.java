@@ -21,7 +21,9 @@ public class Game {
                     System.out.println("It is your turn " + player.name + ". Make a move!" +
                             "\n[1] Buy animal" + "\n[2] Buy food" + "\n[3] Feed animal" + "\n[4] Mate animal" + "\n[5] Sell animal");
 
-                    userChoice = Integer.parseInt(SCANNER.next());
+                    try {
+                        userChoice = Integer.parseInt(SCANNER.next());
+                    } catch (Exception ignore){}
                     if (userChoice < 1 || userChoice > 5) {
                         System.out.println("You have to choose a number from the list.");
                     }
