@@ -1,4 +1,5 @@
-import java.util.Random;
+import java.util.*;
+
 
 public abstract class Animal {
     enum Gender{
@@ -11,6 +12,7 @@ public abstract class Animal {
     protected boolean isAlive = true;
     protected double healthDecrease = 0.0;
     private final Random RANDOM = new Random();
+    private final Scanner SCANNER = new Scanner(System.in);
     protected int price;
 
     public Animal(String name, String gender){
@@ -49,6 +51,54 @@ public abstract class Animal {
     public int getPrice(){
         return price;
     }
-    public void mateTwoAnimals() {
+    public void mateTwoAnimals(Animal animal, Player player) {
+        boolean trueOrFalse = RANDOM.nextBoolean();
+        if(trueOrFalse){
+            if(animal instanceof Horse){
+                var newGender = setGender();
+                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
+                var newName = prompt("Now you have to give it a name: ");
+                player.animals.add(new Horse(newName, newGender));
+            }
+            if(animal instanceof Cow){
+                var newGender = setGender();
+                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
+                var newName = prompt("Now you have to give it a name: ");
+                player.animals.add(new Cow(newName, newGender));
+            }
+            if(animal instanceof Pig){
+                var newGender = setGender();
+                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
+                var newName = prompt("Now you have to give it a name: ");
+                player.animals.add(new Pig(newName, newGender));
+            }
+            if(animal instanceof Sheep){
+                var newGender = setGender();
+                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
+                var newName = prompt("Now you have to give it a name: ");
+                player.animals.add(new Sheep(newName, newGender));
+            }
+            if(animal instanceof Llama){
+                var newGender = setGender();
+                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
+                var newName = prompt("Now you have to give it a name: ");
+                player.animals.add(new Llama(newName, newGender));
+            }
+        }
+
+    }
+    public String setGender(){
+        boolean female = RANDOM.nextBoolean();  // Randomize gender
+        if(female){
+            return "female";
+        }
+        return "male";
+    }
+    public void print(String text){     // help method
+        System.out.println(text);
+    }
+    public String prompt(String question){      // help method
+        System.out.println(question);
+        return SCANNER.nextLine();
     }
 }
