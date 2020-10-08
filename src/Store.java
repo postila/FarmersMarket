@@ -5,8 +5,8 @@ public class Store {
 
     public void createAnimal(Player player){
         boolean exit = false;
+        int animalChoice = 0;
         while(!exit) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println("\t[ ANIMALS FOR SALE ]" +
                     "\n[1] HORSE \t|  50.000 SEK" +
                     "\n[2]  COW \t|  12.000 SEK" +
@@ -14,7 +14,9 @@ public class Store {
                     "\n[4] SHEEP \t|   1.000 SEK" +
                     "\n[5] LLAMA \t|  10.000 SEK" +
                     "\n[6]\t\tEXIT STORE  ");
-            var animalChoice = scanner.nextInt();
+            try {
+                animalChoice = Integer.parseInt(prompt("Chose an animal to buy or exit the store."));
+            } catch (Exception ignore){}
             var name = "";
             var gender = "";
             if(animalChoice >= 1 && animalChoice <= 5){
@@ -36,13 +38,16 @@ public class Store {
     }
     public void deliverFood(Player player) {
         boolean exit = false;
+        int foodChoice = 0;
         while (!exit){
             System.out.println("\t\t[ FOOD ] " +
                     "\n[1] HAY\t\t|  100 SEK/KG" +
                     "\n[2] GRASS\t|  150 SEK/KG" +
                     "\n[3] GRAIN\t|  200 SEK/KG" +
                     "\n[4] \tEXIT STORE");
-        int foodChoice = Integer.parseInt(prompt("What food would you like to buy today?"));
+        try {
+            foodChoice = Integer.parseInt(prompt("What food would you like to buy today?"));
+        } catch (Exception ignore) {}
         int kilos = 0;
         if (foodChoice >= 1 && foodChoice <= 3) {
             kilos = Integer.parseInt(prompt("How many kilos would you like to get?"));
