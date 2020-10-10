@@ -24,7 +24,7 @@ public class Game {
                     try {
                         userChoice = Integer.parseInt(SCANNER.next());
                     } catch (Exception ignore){}
-                    if (userChoice < 1 || userChoice > 5) {
+                    if (userChoice < 1 || userChoice > 6) {
                         System.out.println("You have to choose a number from the list.");
                     }
                     else {
@@ -38,12 +38,11 @@ public class Game {
                 switch (userChoice) {
                     case 1 -> buyAnimal(player);  // Creates a new animal and add to players list of animals
                     case 2 -> buyFood(player);    // Buy food and add to players list
-                    case 3 -> {
-                        feedAnimal(player);   // Increase animals life value
-                        player.showPlayerInfo();
-                    }
+                    case 3 ->{ feedAnimal(player);
+                    player.showPlayerInfo();}// Increase animals life value
                     case 4 -> mateAnimal(player);
-                    case 5 -> player.showPlayerInfo();
+                    case 5 -> sellAnimal(player);
+                    case 6 -> player.showPlayerInfo();
                 }
             }
         }
@@ -61,37 +60,53 @@ public class Game {
     }
     public void feedAnimal (Player player) {
         int kilos = 0;
-        String userChoiceOfFood = "";
-        Food chosenFood;
+        Food userChoiceOfFood = null;
+        int count = 0;
         for (var f : player.foods) {
-            System.out.println("[" + f.getClass().getSimpleName() + "]");
+            System.out.println("[" + ++count + "]  Food: " + f.getClass().getSimpleName().toUpperCase() +
+                    "  \tAmount: " + f.getAmount());
         }
-        try {
-            userChoiceOfFood = prompt("Choose what type of food you would like to feed: ");
-            kilos = Integer.parseInt(prompt("How many kilos?"));
-        } catch (Exception e) {
-            System.out.println("You gave the wrong input!");
-        }
+        do {
+            try {
+                var input = prompt("Enter number attached to food: ");
+                userChoiceOfFood = player.foods.get(Integer.parseInt(input) - 1);
+            } catch (Exception ignore) {
+            }
+            try {
+                kilos = Integer.parseInt(prompt("Amount of kilos to feed your animals:"));
+            } catch (Exception ignore) {
+            }
+        } while (userChoiceOfFood == null || kilos == 0);
+
         for (var a : player.animals) {
-            if (userChoiceOfFood.toLowerCase().equals("hay")) {
-                if (a instanceof Horse || a instanceof Llama || a instanceof Sheep) {
-                    chosenFood = new Hay(kilos);
-                    player.feedHay(a, kilos);
-                    player.reduceFood(chosenFood, kilos);
+            if(userChoiceOfFood instanceof Hay){
+                if(a instanceof Horse || a instanceof Llama || a instanceof Sheep) {
+                    for (var i = 0; i < kilos; i++) {
+                        if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
+                            a.increaseHealth(1);
+                            player.reduceFood(userChoiceOfFood, 1);
+                        }
+                    }
                 }
             }
-            if (userChoiceOfFood.toLowerCase().equals("grass")) {
-                if (a instanceof Cow) {
-                    chosenFood = new Grass(kilos);
-                    player.feedGrass(a, kilos);
-                    player.reduceFood(chosenFood, kilos);
+            if(userChoiceOfFood instanceof Grass) {
+                if (a instanceof Cow || a instanceof Horse) {
+                    for (var i = 0; i < kilos; i++) {
+                        if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
+                            a.increaseHealth(1);
+                            player.reduceFood(userChoiceOfFood, 1);
+                        }
+                    }
                 }
             }
-            if (userChoiceOfFood.toLowerCase().equals("grain")) {
-                if (a instanceof Pig || a instanceof Horse) {
-                    chosenFood = new Grain(kilos);
-                    player.feedGrain(a, kilos);
-                    player.reduceFood(chosenFood, kilos);
+            if(userChoiceOfFood instanceof Grain){
+                if(a instanceof Pig || a instanceof Llama || a instanceof Sheep){
+                    for(var i = 0; i < kilos; i++) {
+                        if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
+                            a.increaseHealth(1);
+                            player.reduceFood(userChoiceOfFood, 1);
+                        }
+                    }
                 }
             }
         }
@@ -104,9 +119,26 @@ public class Game {
             System.out.println("Oh no.. Not a possible move.\nYou don't have any animals, " + player.name + ".");
         }
     }
+    public void sellAnimal (Player player){
+        var count = 0;
+        for(var a : player.animals){
+            print("[" + ++count + "] " + a.name + " the " + a.getClass().getSimpleName().toLowerCase() +
+                    " current health value: " + a.health);
+        }
+        var input = prompt("What animal from you list would you like to sell?");
+        var animalToSell = player.animals.get(Integer.parseInt(input) -1);
+        System.out.println(animalToSell.getClass().getSimpleName() + " animal you wish to sell.");
+        var sellingPrice = (animalToSell.getPrice() * (animalToSell.health/100));
+        print("Selling Price: " + (int)sellingPrice);
+        player.money += sellingPrice;
+        player.animals.remove(animalToSell);
+    }
     public String prompt(String question){
         System.out.println(question);
         return SCANNER.next();
+    }
+    public void print(String text){
+        System.out.println(text);
     }
 }
 
