@@ -39,9 +39,9 @@ public abstract class Animal {
     }
     public void increaseHealth(int kilo){
         if(health <= 100){
-            double increasePerKilo = (0.1 * kilo) + 1.0;
-            System.out.println(increasePerKilo + " percentage based on amount of food");
-            health = (int)health * increasePerKilo;
+            //double increasePerKilo = (0.1 * kilo) + 1.0;
+            //System.out.println(increasePerKilo + " percentage based on amount of food");
+            health = (int)health * 1.1;
             System.out.println(health + " that will be increased.");
                 if(health > 100){
                 health = 100;
@@ -66,17 +66,23 @@ public abstract class Animal {
                 var newName = prompt("Now you have to give it a name: ");
                 player.animals.add(new Cow(newName, newGender));
             }
-            if(animal instanceof Pig){
-                var newGender = setGender();
-                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
-                var newName = prompt("Now you have to give it a name: ");
-                player.animals.add(new Pig(newName, newGender));
+            if(animal instanceof Pig) {
+                var numberOfPiglets = RANDOM.nextInt(8) + 3; // A sow can have between 3-10 piglets
+                print("Congratulations! You just got " + numberOfPiglets + " piglets!");
+                for (var i = 1; i <= numberOfPiglets; i++) {
+                    var newGender = setGender();
+                    var newName = prompt("Name " + newGender + " piglet number " + i + ":");
+                    player.animals.add(new Pig(newName, newGender));
+                }
             }
-            if(animal instanceof Sheep){
-                var newGender = setGender();
-                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
-                var newName = prompt("Now you have to give it a name: ");
-                player.animals.add(new Sheep(newName, newGender));
+            if(animal instanceof Sheep) {
+                int numberOfLambs = RANDOM.nextInt(3) + 1;  // A sheep can have between 1-3 lambs
+                print("Congratulations! You just got " + numberOfLambs + " lambs!");
+                for (var i = 1; i <= numberOfLambs; i++) {
+                    var newGender = setGender();
+                    var newName = prompt("Name " + newGender + " lamb number " + i + ":");
+                    player.animals.add(new Sheep(newName, newGender));
+                }
             }
             if(animal instanceof Llama){
                 var newGender = setGender();
@@ -85,7 +91,7 @@ public abstract class Animal {
                 player.animals.add(new Llama(newName, newGender));
             }
         }
-
+        print("[ UNSUCCESSFUL MATING ]");
     }
     public String setGender(){
         boolean female = RANDOM.nextBoolean();  // Randomize gender
