@@ -66,15 +66,6 @@ public class Player {
             a.animalDied();
         }
     }
-    public void feedHay(Animal animal, int kg) {
-        animal.increaseHealth(kg);
-    }
-    public void feedGrass(Animal animal, int kg) {
-        animal.increaseHealth(kg);
-    }
-    public void feedGrain(Animal animal, int kg){
-        animal.increaseHealth(kg);
-    }
     public void mateAnimal(){
         boolean twoAnimalsChosen = false;
         showPlayersAnimals();
@@ -95,19 +86,29 @@ public class Player {
             }
             if (animalOneClass == null || animalTwoClass == null) {
                 print("You don't seem to own an animal with this name.");
+                var input = prompt("To continue, press ENTER. \nOtherwise type EXIT.");
+                if(input.toUpperCase().equals("EXIT")){
+                    break;
+                }
             }
             else if(!animalOneClass.getClass().equals(animalTwoClass.getClass()) || animalOneClass.gender.equals(animalTwoClass.gender)){
                 print("Animals most be of same kind & have opposites gender!");
-            } else {
+                var input = prompt("To continue, press ENTER. \nOtherwise type EXIT.");
+                if(input.toUpperCase().equals("EXIT")){
+                    break;
+                }
+            }
+            else {
                 print("It's possible to mate your animals!");
                 animalOneClass.mateTwoAnimals(animalTwoClass, this);
                 twoAnimalsChosen = true;
             }
         }
     }
-    public void showPlayersAnimals(){
-        for(var a : animals){
-            print(a.getClass().getSimpleName() + " " + a.name + " " + a.gender.name().toLowerCase());
+    public void showPlayersAnimals() {
+        var count = 0;
+        for (Animal animal : animals) {
+            print("[" + ++count + "] " + animal.name + " the " + animal.getClass().getSimpleName());
         }
     }
     public void showPlayerInfo(){
@@ -124,11 +125,11 @@ public class Player {
             print(f.getClass().getSimpleName() + " Amount: " + f.getAmount() + " kg.");
         }
     }
-    public String prompt(String question){
+    public String prompt(String question){  // help method
         System.out.println(question);
         return scanner.nextLine();
     }
-    public void print(String statement){
-        System.out.println(statement);
+    public void print(String text){    // help method
+        System.out.println(text);
     }
 }
