@@ -62,46 +62,39 @@ public class Player {
     public void notFeedingAnimal(){
         for(var a : animals){
             a.decreaseHealth();
-            a.changeHealth();
             a.animalDied();
         }
     }
     public void mateAnimal(){
-        boolean twoAnimalsChosen = false;
-        showPlayersAnimals();
-        while(!twoAnimalsChosen) {
-            var animalOne = prompt("Which ones of your animals would you like to mate?");
-            Animal animalOneClass = null;
-            for (var animal : animals) {
-                if (animal.name.toUpperCase().equals(animalOne.toUpperCase())) {
-                    animalOneClass = animal;    // get first animals instance and save it
-                }
+        boolean exit = false;
+        Animal animalOne = null;
+        Animal animalTwo = null;
+        while(!exit) {
+        do {
+            int count = 0;
+            for(var a : animals){
+                print("[" + ++count + "] " + a.name + " the " + a.getClass().getSimpleName().toLowerCase());
             }
-            var animalTwo = prompt("Choose another one of opposite gender.");
-            Animal animalTwoClass = null;
-            for (var animal : animals) {
-                if (animal.name.toUpperCase().equals(animalTwo.toUpperCase())) {
-                    animalTwoClass = animal;    // get second animal instance and save it
-                }
+            try {
+                var inputOne = prompt("Which one of your animals would you like to mate?");
+                animalOne = animals.get(Integer.parseInt(inputOne) - 1);
+                var inputTwo = prompt("Choose a second animal.");
+                animalTwo = animals.get(Integer.parseInt(inputTwo) - 1);
+            }catch (Exception e) {
+                print("You have to choose animals between 1-" + count);
             }
-            if (animalOneClass == null || animalTwoClass == null) {
-                print("You don't seem to own an animal with this name.");
-                var input = prompt("To continue, press ENTER. \nOtherwise type EXIT.");
-                if(input.toUpperCase().equals("EXIT")){
-                    break;
-                }
-            }
-            else if(!animalOneClass.getClass().equals(animalTwoClass.getClass()) || animalOneClass.gender.equals(animalTwoClass.gender)){
-                print("Animals most be of same kind & have opposites gender!");
-                var input = prompt("To continue, press ENTER. \nOtherwise type EXIT.");
-                if(input.toUpperCase().equals("EXIT")){
-                    break;
+        } while (animalOne == null || animalTwo == null);
+            if (!animalOne.getClass().equals(animalTwo.getClass()) || animalOne.gender.equals(animalTwo.gender)) {
+                print("Animals must be of same breed and have opposite genders!");
+                var input = prompt("\n\n[C] to CONTINUE.\n[E] to EXIT");
+                if(input.toUpperCase().equals("E")){
+                    exit = true;
                 }
             }
             else {
                 print("It's possible to mate your animals!");
-                animalOneClass.mateTwoAnimals(animalTwoClass, this);
-                twoAnimalsChosen = true;
+                animalOne.mateTwoAnimals(animalTwo, this);
+                exit = true;
             }
         }
     }

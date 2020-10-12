@@ -26,9 +26,6 @@ public abstract class Animal {
             System.out.println("Your animal is dead.");
         }
     }
-    public void changeHealth(){
-        health -= (healthDecrease);
-    }
     public void decreaseHealth(){
         healthDecrease = RANDOM.nextInt(21) + 10;  // randomize a percentage between 10-30 for health loss
         healthDecrease /= 100;   //  Convert the unit of loss into percentage
@@ -36,13 +33,12 @@ public abstract class Animal {
         if(healthDecrease < 1){
             healthDecrease = 1; // So that animal life value always lose something
         }
+        health -= (healthDecrease);
     }
     public void increaseHealth(int kilo){
         if(health <= 100){
-            //double increasePerKilo = (0.1 * kilo) + 1.0;
-            //System.out.println(increasePerKilo + " percentage based on amount of food");
-            health = (int)health * 1.1;
-            System.out.println(health + " that will be increased.");
+            health = (int)health * ((0.1 * kilo) + 1);
+            System.out.println((int)health + " that will be increased.");
                 if(health > 100){
                 health = 100;
             }
@@ -90,8 +86,9 @@ public abstract class Animal {
                 var newName = prompt("Now you have to give it a name: ");
                 player.animals.add(new Llama(newName, newGender));
             }
+        } else{
+            print("[UNSUCCESSFUL MATING]");
         }
-        print("[ UNSUCCESSFUL MATING ]");
     }
     public String setGender(){
         boolean female = RANDOM.nextBoolean();  // Randomize gender
