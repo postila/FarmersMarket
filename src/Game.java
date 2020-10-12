@@ -120,18 +120,41 @@ public class Game {
         }
     }
     public void sellAnimal (Player player){
-        var count = 0;
-        for(var a : player.animals){
-            print("[" + ++count + "] " + a.name + " the " + a.getClass().getSimpleName().toLowerCase() +
-                    " current health value: " + a.health);
-        }
-        var input = prompt("What animal from you list would you like to sell?");
-        var animalToSell = player.animals.get(Integer.parseInt(input) -1);
-        System.out.println(animalToSell.getClass().getSimpleName() + " animal you wish to sell.");
-        var sellingPrice = (animalToSell.getPrice() * (animalToSell.health/100));
-        print("Selling Price: " + (int)sellingPrice);
-        player.money += sellingPrice;
-        player.animals.remove(animalToSell);
+        boolean sell = true;
+        do {
+            var count = 0;
+            Animal animalToSell;
+            for (var a : player.animals) {
+                print("[" + ++count + "] " + a.name + " the " + a.getClass().getSimpleName().toLowerCase() +
+                        " current health value: " + a.health);
+            }
+            while (true){
+                try {
+                    if(!player.animals.isEmpty()) {
+                        var input = prompt("What animal from you list would you like to sell?");
+                        animalToSell = player.animals.get(Integer.parseInt(input) - 1);
+                        if (animalToSell != null) {
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    print("Chose an animal from your list, 1-" + count);
+                }
+            }
+            System.out.println(animalToSell.getClass().getSimpleName() + " animal you wish to sell.");
+            var sellingPrice = (animalToSell.getPrice() * (animalToSell.health / 100));
+            print("Selling Price: " + (int) sellingPrice);
+            player.money += sellingPrice;
+            player.animals.remove(animalToSell);
+            if(player.animals.isEmpty()){
+                print("You don't have any animals left.1");
+                sell = false;
+            }
+            var sellMore = prompt("\n\n[S] to sell another animal. \n[E] to exit.");
+            if (sellMore.toUpperCase().equals("E")){
+                sell = false;
+            }
+        } while(sell);
     }
     public String prompt(String question){
         System.out.println(question);
