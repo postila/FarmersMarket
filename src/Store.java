@@ -5,8 +5,8 @@ public class Store {
 
     public void createAnimal(Player player){
         boolean exit = false;
-        int animalChoice = 0;
         while(!exit) {
+            int animalChoice = 0;
             System.out.println("\t[ ANIMALS FOR SALE ]" +
                     "\n[1] HORSE \t|  50.000 SEK" +
                     "\n[2]  COW \t|  12.000 SEK" +
