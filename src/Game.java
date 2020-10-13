@@ -13,23 +13,22 @@ public class Game {
     }
 
     public void mainGame() {
-        for (int i = 1; i < numberOfRounds + 1; i++) {
-            while(!players.isEmpty()){
+        for (int i = 1; i <= numberOfRounds; i++) {
                 for (Player player : players) {
                     boolean option = false;
                     int userChoice = 0;
                     while (!option) {
                         clear();
-                        print("ROUND " + i);
-                        System.out.println("It is your turn " + player.name + ".\nYour currently have " + player.money +
-                                " SEK.\nMake a move!" +
-                                "\n\n[1] Buy animal" + "\n[2] Buy food" + "\n[3] Feed animal" + "\n[4] Mate animal" + "\n[5] Sell animal");
-
+                        print("\t== ROUND " + i + " ==");
+                        print( player.niceName() + ", it's your turn.\nCurrent Balance: " + player.money +
+                                " SEK.\nCurrent Animals: " + player.animals.size() +
+                                "\n\n[1] Buy Animal" + "\n[2] Buy Food" + "\n[3] Feed Animal" +
+                                "\n[4] Mate Animal" + "\n[5] Sell Animal" + "\n[6] Show " + player.name + " Info");
                         try {
                             userChoice = Integer.parseInt(SCANNER.next());
                         } catch (Exception ignore) {
                         }
-                        if (userChoice < 1 || userChoice > 6) {
+                        if (userChoice < 1 || userChoice > 7) {
                             System.out.println("You have to choose a number from the list.");
                         } else {
                             option = true;
@@ -50,17 +49,19 @@ public class Game {
                         case 5 -> sellAnimal(player);
                         case 6 -> player.showPlayerInfo();
                     }
-                    checkIfGameOver(player);
-                    if (players.isEmpty()){
-                        print("GAME OVER - NO WINNER!!");
-                        return;     // If players list is empty, end game.
-                    }
+                    sleep(1000);
                 }
-            }
-            if(i >= numberOfRounds){
+            checkIfGameOver();
+            if(i == numberOfRounds){
                 clear();
                 print("GAME IS OVER!\n\n");
                 checkForWinner();
+                break;
+            }
+            if (players.isEmpty()){
+                clear();
+                print("== GAME OVER ==\n   NO WINNER");
+                return;     // If players list is empty, end game.
             }
         }
     }
@@ -70,13 +71,11 @@ public class Game {
         //  first check if player has enough money or not.
         store.createAnimal(player);
     }
-
     public void buyFood(Player player) {
         //  Menu should be out here, and when player choose animal it should
         //  first check if player has enough money or not.
         store.deliverFood(player);
     }
-
     public void feedAnimal(Player player) {
         int kilos = 0;
         Food userChoiceOfFood = null;
@@ -134,7 +133,6 @@ public class Game {
             }
         }
     }
-
     public void mateAnimal(Player player) {
         if (!player.animals.isEmpty()) { // check if player has any animal
             player.mateAnimal();
@@ -142,7 +140,6 @@ public class Game {
             System.out.println("Oh no.. Not a possible move.\nYou don't have any animals, " + player.name + ".");
         }
     }
-
     public void sellAnimal(Player player) {
         boolean sell = true;
         do {
@@ -155,7 +152,13 @@ public class Game {
             while (true) {
                 try {
                     if (!player.animals.isEmpty()) {
-                        var input = prompt("What animal from you list would you like to sell?");
+                        var input = prompt("What animal from you list would you like to sell?\n" +
+                                "[E] to exit.");
+                        if(input.toUpperCase().equals("E")){
+                            print("So, you changed your mind!");
+                            sleep(1000);
+                            return;
+                        }
                         animalToSell = player.animals.get(Integer.parseInt(input) - 1);
                         if (animalToSell != null) {
                             break;
@@ -180,28 +183,28 @@ public class Game {
             }
         } while (sell);
     }
-
     public String prompt(String question) {
         System.out.println(question);
         return SCANNER.next();
     }
-
     public void print(String text) {
         System.out.println(text);
     }
     public void clear(){
         System.out.println("\n".repeat(50));
     }
-
-    public void checkIfGameOver(Player player) {
-        if (player.money <= 0 && player.animals.isEmpty()) {
-            print("GAME OVER " + player.name.toUpperCase() + "\nYou're out of the game!");
-            players.remove(player);
+    public void checkIfGameOver() {
+        clear();
+        for(var i = players.size() -1; i >= 0; i--){
+            if (players.get(i).money <= 0 && players.get(i).animals.isEmpty()) {
+                print("GAME OVER " + players.get(i).name.toUpperCase() + "\nYou're out of the game!");
+                sleep(3000);
+                players.remove(i);
+            }
         }
     }
-
     public void checkForWinner() {
-        print("\t\t[SCORE BOARD]");
+        print("\t\t[ S C O R E  B O A R D ]");
         if (!players.isEmpty()) {
             for (var player : players) {
                 for (var animal : player.animals) {
@@ -213,8 +216,13 @@ public class Game {
         int count = 0;
         players.sort(new PlayerScoreBoard());   // Sorts players list of money from low to high
         for(var i = players.size()-1; i >= 0; i--){     // Loop backwards to get the player with most money first
-            print(++count + ". " + players.get(i).name.toUpperCase() + "\t Farmers total worth: " + players.get(i).money);
+            print(++count + ". " + players.get(i).name.toUpperCase() + "\t\t Farmers total worth: " + players.get(i).money);
         }
+    }
+    public void sleep(int ms){
+        try{
+            Thread.sleep(ms);
+        } catch (Exception ignore){}
     }
 }
 
