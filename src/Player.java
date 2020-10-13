@@ -9,7 +9,7 @@ public class Player {
 
     public Player(String name){
         this.name = name;
-        this.money = 500000;
+        this.money = 100000;
         this.animals = new ArrayList<>();
         this.foods = new ArrayList<>();
     }
@@ -36,9 +36,17 @@ public class Player {
             }
         }
         if(foundFood == null){
+            if(money < (food.getFoodPrice() * food.getAmount())|| money <= 0){     // Check if player has enough money
+                print("You don't have enough money!");
+                return;
+            }
             foods.add(food);    // Add food to players list
         }
         else {
+            if(money < (foundFood.getFoodPrice() * foundFood.getAmount()) || money <= 0){     // Check if player has enough money
+                print("You don't have enough money!");
+                return;
+            }
             // If type of food already exist in players food list
             foundFood.setAmount(foundFood.getAmount() + food.getAmount());
         }
@@ -71,12 +79,14 @@ public class Player {
         Animal animalTwo = null;
         while(!exit) {
         do {
+            clear();
             int count = 0;
+            print("[" + name.toUpperCase() + " ANIMALS LIST]");
             for(var a : animals){
                 print("[" + ++count + "] " + a.name + " the " + a.getClass().getSimpleName().toLowerCase());
             }
             try {
-                var inputOne = prompt("Which one of your animals would you like to mate?");
+                var inputOne = prompt("\nWhich one of your animals would you like to mate?");
                 animalOne = animals.get(Integer.parseInt(inputOne) - 1);
                 var inputTwo = prompt("Choose a second animal.");
                 animalTwo = animals.get(Integer.parseInt(inputTwo) - 1);
@@ -86,7 +96,7 @@ public class Player {
         } while (animalOne == null || animalTwo == null);
             if (!animalOne.getClass().equals(animalTwo.getClass()) || animalOne.gender.equals(animalTwo.gender)) {
                 print("Animals must be of same breed and have opposite genders!");
-                var input = prompt("\n\n[C] to CONTINUE.\n[E] to EXIT");
+                var input = prompt("\n[C] to CONTINUE.\n[E] to EXIT");
                 if(input.toUpperCase().equals("E")){
                     exit = true;
                 }
@@ -124,5 +134,8 @@ public class Player {
     }
     public void print(String text){    // help method
         System.out.println(text);
+    }
+    public void clear(){
+        System.out.println("\n".repeat(50));
     }
 }
