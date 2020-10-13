@@ -6,6 +6,7 @@ public class Store {
     public void createAnimal(Player player){
         boolean exit = false;
         while(!exit) {
+            clear();
             int animalChoice = 0;
             System.out.println("\t[ ANIMALS FOR SALE ]" +
                     "\n[1] HORSE \t|  50.000 SEK" +
@@ -15,18 +16,21 @@ public class Store {
                     "\n[5] LLAMA \t|  10.000 SEK" +
                     "\n[6]\t\tEXIT STORE  ");
             try {
-                animalChoice = Integer.parseInt(prompt("Buy animal or leave the store."));
+                animalChoice = Integer.parseInt(prompt("\nBuy animal or enter [6] to leave the store, " + player.name + "."));
             } catch (Exception ignore){}
 
             switch (animalChoice) {
-                case 1 -> player.addAnimal(new Horse(setName(), setGender()));
+                case 1 -> {player.addAnimal(new Horse(setName(), setGender()));
+                print("Congratulations, you just bought a horse!");
+                sleep(1000);}
                 case 2 -> player.addAnimal(new Cow(setName(),setGender()));
                 case 3 -> player.addAnimal(new Pig(setName(),setGender()));
                 case 4 -> player.addAnimal(new Sheep(setName(),setGender()));
                 case 5 -> player.addAnimal(new Llama(setName(),setGender()));
                 case 6 -> {System.out.println("Come back soon, " + player.name + "!");
                 exit = true;}
-                default -> System.out.println("Choose an option between 1-6!");
+                default -> {System.out.println("Choose an option between 1-6!");
+                sleep(1000);}
             }
         }
     }
@@ -35,6 +39,7 @@ public class Store {
         int foodChoice = 0;
         int kilos = 0;
         while (!exit){
+            clear();
             System.out.println("\t\t[ FOOD ] " +
                     "\n[1] HAY\t\t|  100 SEK/KG" +
                     "\n[2] GRASS\t|  150 SEK/KG" +
@@ -45,12 +50,14 @@ public class Store {
                 foodChoice = Integer.parseInt(prompt("What food would you like to buy today?"));
             } catch (Exception e) {
                 print("ERROR : You have to chose a food option between 1-3.");
+                sleep(1000);
             }
             if (foodChoice >= 1 && foodChoice <= 3) {
                 try {
                     kilos = Integer.parseInt(prompt("How many kilos would you like to get?"));
                 } catch (Exception e) {
                     print("ERROR : Register amount of kilos with numbers.");
+                    sleep(1000);
                 }
             }
         } while (foodChoice == 0 || kilos == 0);
@@ -60,7 +67,8 @@ public class Store {
                 case 3 -> player.addFood(new Grain(kilos));
                 case 4 -> {System.out.println("Welcome back another time!");
                     exit = true;}
-                default -> System.out.println("Choose an option between 1-4!");
+                default -> {System.out.println("Choose an option between 1-4!");
+                sleep(1000);}
             }
         }
     }
@@ -71,6 +79,14 @@ public class Store {
     }
     private static void print(String text){
         System.out.println(text);
+    }
+    public void clear(){
+        System.out.println("\n".repeat(50));
+    }
+    public void sleep(int ms){
+        try{
+            Thread.sleep(ms);
+        } catch (Exception ignore){}
     }
     public static String setName(){     // Help method
         return prompt("[ ENTER A NAME ]");
