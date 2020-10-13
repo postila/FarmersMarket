@@ -14,14 +14,16 @@ public class Game {
 
     public void mainGame() {
         for (int i = 1; i < numberOfRounds + 1; i++) {
-            print("ROUND " + i);
-            for (Player player : players) {
-                checkIfGameOver(player);
+            while(!players.isEmpty()){
+                for (Player player : players) {
                     boolean option = false;
                     int userChoice = 0;
                     while (!option) {
-                        System.out.println("It is your turn " + player.name + ". Make a move!" +
-                                "\n[1] Buy animal" + "\n[2] Buy food" + "\n[3] Feed animal" + "\n[4] Mate animal" + "\n[5] Sell animal");
+                        clear();
+                        print("ROUND " + i);
+                        System.out.println("It is your turn " + player.name + ".\nYour currently have " + player.money +
+                                " SEK.\nMake a move!" +
+                                "\n\n[1] Buy animal" + "\n[2] Buy food" + "\n[3] Feed animal" + "\n[4] Mate animal" + "\n[5] Sell animal");
 
                         try {
                             userChoice = Integer.parseInt(SCANNER.next());
@@ -48,12 +50,16 @@ public class Game {
                         case 5 -> sellAnimal(player);
                         case 6 -> player.showPlayerInfo();
                     }
-                if (players.isEmpty()) {
-                    print("GAME OVER - NO WINNERS");
+                    checkIfGameOver(player);
+                    if (players.isEmpty()){
+                        print("GAME OVER - NO WINNER!!");
+                        return;     // If players list is empty, end game.
+                    }
                 }
             }
-            if (i >= numberOfRounds){
-                print("ALL ROUNDS HAVE BEEN PLAYED!\n\n");
+            if(i >= numberOfRounds){
+                clear();
+                print("GAME IS OVER!\n\n");
                 checkForWinner();
             }
         }
@@ -183,30 +189,31 @@ public class Game {
     public void print(String text) {
         System.out.println(text);
     }
+    public void clear(){
+        System.out.println("\n".repeat(50));
+    }
 
     public void checkIfGameOver(Player player) {
-        if (player.money == 0 && player.animals.isEmpty()) {
-            print("Game Over " + player.name);
+        if (player.money <= 0 && player.animals.isEmpty()) {
+            print("GAME OVER " + player.name.toUpperCase() + "\nYou're out of the game!");
             players.remove(player);
         }
     }
 
     public void checkForWinner() {
-        List<Integer> moneyList = new ArrayList<>();
-        print("[SCORE BOARD]");
+        print("\t\t[SCORE BOARD]");
         if (!players.isEmpty()) {
             for (var player : players) {
                 for (var animal : player.animals) {
-                    var worthLeft = animal.price * (animal.health / 100);
-                    player.money += worthLeft;
+                    var worthLeft = animal.price * (animal.health / 100);   // Calculate the worth of players animals
+                    player.money += worthLeft;  // Adds animals worth to players money
                 }
-                print(player.name + " total farmers worth: " + player.money);
-                moneyList.add(player.money);
             }
-            moneyList.sort(Integer::compareTo);
-            for (var money : moneyList){
-                print(money + "");
-            }
+        }
+        int count = 0;
+        players.sort(new PlayerScoreBoard());   // Sorts players list of money from low to high
+        for(var i = players.size()-1; i >= 0; i--){     // Loop backwards to get the player with most money first
+            print(++count + ". " + players.get(i).name.toUpperCase() + "\t Farmers total worth: " + players.get(i).money);
         }
     }
 }
