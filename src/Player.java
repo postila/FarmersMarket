@@ -17,6 +17,7 @@ public class Player {
         if(money < animal.getPrice() || money == 0) {
             print("You do not have enough money to buy a " +
                     animal.getClass().getSimpleName().toLowerCase()+".");
+            sleep(1000);
             return;
         }
         animals.add(animal);    // Add animal to players list if player has enough money
@@ -35,21 +36,19 @@ public class Player {
                 foundFood = foodInstance;
             }
         }
+        if(food.getFoodPrice() * food.getAmount() > money || money <= 0){
+            print("You don't have enough money!");
+            sleep(1000);
+            return;
+        }
         if(foundFood == null){
-            if(money < (food.getFoodPrice() * food.getAmount())|| money <= 0){     // Check if player has enough money
-                print("You don't have enough money!");
-                return;
-            }
             foods.add(food);    // Add food to players list
         }
         else {
-            if(money < (foundFood.getFoodPrice() * foundFood.getAmount()) || money <= 0){     // Check if player has enough money
-                print("You don't have enough money!");
-                return;
-            }
             // If type of food already exist in players food list
             foundFood.setAmount(foundFood.getAmount() + food.getAmount());
         }
+
         // decrease the right amount of money from players money
         money = (money - food.getFoodPrice() * food.getAmount());
     }
@@ -83,7 +82,8 @@ public class Player {
             int count = 0;
             print("[" + name.toUpperCase() + " ANIMALS LIST]");
             for(var a : animals){
-                print("[" + ++count + "] " + a.name + " the " + a.getClass().getSimpleName().toLowerCase());
+                print("[" + ++count + "] " + a.animalName() + " the " + a.getClass().getSimpleName().toLowerCase() +
+                "\t Gender: " + a.gender);
             }
             try {
                 var inputOne = prompt("\nWhich one of your animals would you like to mate?");
@@ -121,12 +121,13 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            print("The " + a.getClass().getSimpleName().toLowerCase() + ", " + a.name + " " + (int)a.health);
+            print("The " + a.getClass().getSimpleName().toLowerCase() + ", " + a.animalName() + " " + (int)a.health);
         }
         System.out.println("--------------------------");
         for(var f : foods){
             print(f.getClass().getSimpleName() + " Amount: " + f.getAmount() + " kg.");
         }
+        sleep(3000);
     }
     public String prompt(String question){  // help method
         System.out.println(question);
@@ -137,5 +138,13 @@ public class Player {
     }
     public void clear(){
         System.out.println("\n".repeat(50));
+    }
+    public void sleep(int ms){
+        try{
+            Thread.sleep(ms);
+        }catch (Exception ignore){}
+    }
+    public String niceName(){
+        return name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
     }
 }
