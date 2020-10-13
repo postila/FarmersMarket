@@ -134,10 +134,12 @@ public class Game {
         }
     }
     public void mateAnimal(Player player) {
-        if (!player.animals.isEmpty()) { // check if player has any animal
+        if(player.animals.size() < 2){
+            print("Oh no.. Not a possible move! You must have at least two animals!");
+            sleep(1000);
+        }
+        else {
             player.mateAnimal();
-        } else {
-            System.out.println("Oh no.. Not a possible move.\nYou don't have any animals, " + player.name + ".");
         }
     }
     public void sellAnimal(Player player) {
