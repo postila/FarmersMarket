@@ -23,9 +23,16 @@ public class Player {
         animals.add(animal);    // Add animal to players list if player has enough money
         money = (money - animal.getPrice());
     }
+    public void increaseAnimalAge(){
+        for(var a : animals){
+            a.age++;
+        }
+        removeDeadAnimal();
+    }
     public void removeDeadAnimal() {
         if (!animals.isEmpty()) {
             animals.removeIf(animal -> animal.health == 0);
+            animals.removeIf(animal -> animal.age >= animal.maxAge); // Check if animals age has passed it's max age.
         }
     }
     public void addFood(Food food){
@@ -108,12 +115,6 @@ public class Player {
             }
         }
     }
-    public void showPlayersAnimals() {
-        var count = 0;
-        for (Animal animal : animals) {
-            print("[" + ++count + "] " + animal.name + " the " + animal.getClass().getSimpleName());
-        }
-    }
     public void showPlayerInfo(){
         System.out.println(this.name + " information" +
                 "\n-----------------------------\n" +
@@ -121,7 +122,8 @@ public class Player {
                 "\n-----------------------------\n" +
                 "[Animal List]");
         for(var a : animals){
-            print("The " + a.getClass().getSimpleName().toLowerCase() + ", " + a.animalName() + " " + (int)a.health);
+            print("The " + a.getClass().getSimpleName().toLowerCase() + ", " + a.animalName() + "\tHealth: " + (int)a.health
+            + "\tAge: " + a.age);
         }
         System.out.println("--------------------------");
         for(var f : foods){
