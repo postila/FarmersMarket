@@ -58,7 +58,11 @@ public abstract class Animal {
         }
     }
     public void healAnimal(){
-        this.sick = false;
+        boolean healed = RANDOM.nextBoolean();
+        if(healed) {
+            print("Congratulations, your animal is healthy again!");
+            this.sick = false;
+        }
     }
     public int getPrice(){
         return price;
