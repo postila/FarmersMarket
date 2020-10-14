@@ -134,16 +134,17 @@ public class Player {
         }
     }
     public void showPlayerInfo(){
-        System.out.println(this.name + " information" +
-                "\n-----------------------------\n" +
-                "[Money]\t " + this.money + "SEK" +
-                "\n-----------------------------\n" +
-                "[Animal List]");
+        int count = 0;
+        System.out.println(this.name.toUpperCase() + " INFORMATION" +
+                "\n------------------------------------\n" +
+                "Current Balance :\t " + this.money + "SEK" +
+                "\n------------------------------------\n" +
+                "[" + niceName() + " Animal List]");
         for(var a : animals){
-            print("The " + a.getClass().getSimpleName().toLowerCase() + ", " + a.animalName() + "\tHealth: " + (int)a.health
-            + "\tAge: " + a.age);
-        }
-        System.out.println("--------------------------");
+                print(++ count + ". " + a.name.toUpperCase() + " THE " + a.getClass().getSimpleName().toUpperCase() + "\nHealth: " +
+                        (int) a.health + "\t|\tAge: " + a.age + "\t|\tSick: " + a.sick);
+            }
+        System.out.println("------------------------------------");
         for(var f : foods){
             print(f.getClass().getSimpleName() + " Amount: " + f.getAmount() + " kg.");
         }
