@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class GameStarter{
+public class GameStarter implements Serializable {
         Scanner scanner = new Scanner(System.in);
         public int numberOfPlayers;
         public int numberOfRounds;
@@ -18,16 +19,16 @@ public class GameStarter{
             players = new ArrayList<>();
             for(var i = 1; i <= numberOfPlayers; i++){
                 if(i==1) {
-                    players.add(new Player(prompt("Enter " + i + "st players name: ")));
+                    players.add(new Player(prompt("Enter " + i + ":st players name: ")));
                 }
                 if(i==2) {
-                    players.add(new Player(prompt("Enter " + i + "nd players name: ")));
+                    players.add(new Player(prompt("Enter " + i + ":nd players name: ")));
                 }
                 if(i==3) {
-                    players.add(new Player(prompt("Enter " + i + "rd players name: ")));
+                    players.add(new Player(prompt("Enter " + i + ":rd players name: ")));
                 }
                 if(i==4) {
-                    players.add(new Player(prompt("Enter " + i + "th players name: ")));
+                    players.add(new Player(prompt("Enter " + i + ":th players name: ")));
                 }
             }
             new Game(players, numberOfRounds);

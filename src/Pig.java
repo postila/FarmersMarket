@@ -1,4 +1,6 @@
-public class Pig extends Animal{
+import java.io.Serializable;
+
+public class Pig extends Animal implements Serializable {
 
     public Pig(String name, String gender){
         super(name, gender);

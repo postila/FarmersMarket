@@ -1,6 +1,8 @@
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class Player {
+public class Player implements Serializable {
     protected String name;
     protected int money;
     protected ArrayList<Animal> animals;

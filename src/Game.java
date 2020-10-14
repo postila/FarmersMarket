@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Game {
+public class Game implements Serializable {
     private static final Scanner SCANNER = new Scanner(System.in);
     public int numberOfRounds;
     public ArrayList<Player> players;

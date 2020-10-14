@@ -1,4 +1,6 @@
-public class Llama extends Animal{
+import java.io.Serializable;
+
+public class Llama extends Animal implements Serializable {
 
 
     public Llama(String name, String gender){

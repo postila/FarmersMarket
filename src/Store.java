@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Store {
+public class Store implements Serializable {
     private static final Scanner scanner = new Scanner(System.in);
 
     public void createAnimal(Player player){
