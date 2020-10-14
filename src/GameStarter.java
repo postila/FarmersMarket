@@ -1,7 +1,6 @@
-import java.io.Serializable;
 import java.util.*;
 
-public class GameStarter implements Serializable {
+public class GameStarter {
         Scanner scanner = new Scanner(System.in);
         public int numberOfPlayers;
         public int numberOfRounds;

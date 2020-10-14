@@ -1,8 +1,7 @@
 import java.io.Serializable;
 import java.util.*;
 
-
-public abstract class Animal implements Serializable {
+public abstract class Animal {
     enum Gender{
         FEMALE,
         MALE

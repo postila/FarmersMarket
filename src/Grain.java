@@ -1,6 +1,4 @@
-import java.io.Serializable;
-
-public class Grain extends Food implements Serializable {
+public class Grain extends Food {
 
     public Grain(int amount){
         price = 200;
