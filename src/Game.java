@@ -15,6 +15,7 @@ public class Game {
     public void mainGame() {
         for (int i = 1; i <= numberOfRounds; i++) {
                 for (Player player : players) {
+                    player.increaseAnimalAge();
                     boolean option = false;
                     int userChoice = 0;
                     while (!option) {
@@ -41,10 +42,7 @@ public class Game {
                     switch (userChoice) {
                         case 1 -> buyAnimal(player);  // Creates a new animal and add to players list of animals
                         case 2 -> buyFood(player);    // Buy food and add to players list
-                        case 3 -> {
-                            feedAnimal(player);
-                            player.showPlayerInfo();
-                        }// Increase animals life value
+                        case 3 -> feedAnimal(player);   // Increase animals life value
                         case 4 -> mateAnimal(player);
                         case 5 -> sellAnimal(player);
                         case 6 -> player.showPlayerInfo();
@@ -67,13 +65,9 @@ public class Game {
     }
 
     public void buyAnimal(Player player) {
-        //  Menu should be out here, and when player choose animal it should
-        //  first check if player has enough money or not.
         store.createAnimal(player);
     }
     public void buyFood(Player player) {
-        //  Menu should be out here, and when player choose animal it should
-        //  first check if player has enough money or not.
         store.deliverFood(player);
     }
     public void feedAnimal(Player player) {
@@ -171,7 +165,9 @@ public class Game {
                 }
             }
             System.out.println(animalToSell.getClass().getSimpleName() + " animal you wish to sell.");
-            var sellingPrice = (animalToSell.getPrice() * (animalToSell.health / 100));
+            var priceLossDueToAge = (animalToSell.age * 0.02); // Animal lose 2% in value due to age
+            var newPrice = animalToSell.getPrice() - (animalToSell.getPrice() * priceLossDueToAge);
+            var sellingPrice = (newPrice * (animalToSell.health / 100));
             print("Selling Price: " + (int) sellingPrice);
             player.money += sellingPrice;
             player.animals.remove(animalToSell);
