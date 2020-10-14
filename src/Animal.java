@@ -14,14 +14,15 @@ public abstract class Animal {
     private final Random RANDOM = new Random();
     private final Scanner SCANNER = new Scanner(System.in);
     protected int price;
+    protected int age;
+    protected int maxAge;
 
     public Animal(String name, String gender){
         this.name = name;
         this.gender = Gender.valueOf(gender.toUpperCase());
     }
-
     public void animalDied() {
-        if (health <= 0) {
+        if (health <= 0 || age >= maxAge) {
             isAlive = false;
             System.out.println("Your animal is dead.");
         }
@@ -88,6 +89,7 @@ public abstract class Animal {
             }
         } else{
             print("[UNSUCCESSFUL MATING]");
+            sleep(700);
         }
     }
     public String setGender(){
@@ -103,5 +105,13 @@ public abstract class Animal {
     public String prompt(String question){      // help method
         System.out.println(question);
         return SCANNER.nextLine();
+    }
+    public void sleep(int ms){
+        try{
+            Thread.sleep(ms);
+        } catch (Exception ignore){}
+    }
+    public String animalName(){
+        return name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
     }
 }
