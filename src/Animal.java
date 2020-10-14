@@ -16,6 +16,7 @@ public abstract class Animal {
     protected int price;
     protected int age;
     protected int maxAge;
+    protected boolean sick;
 
     public Animal(String name, String gender){
         this.name = name;
@@ -44,6 +45,20 @@ public abstract class Animal {
                 health = 100;
             }
         }
+    }
+    public void getSick(){
+        var sick = RANDOM.nextInt(5)+1;
+        if(sick == 1){
+            print("OH NO!! Your animal is sick.");
+            this.sick = true;
+        }
+        else{
+            print("Healthy Animal!");
+            this.sick = false;
+        }
+    }
+    public void healAnimal(){
+        this.sick = false;
     }
     public int getPrice(){
         return price;

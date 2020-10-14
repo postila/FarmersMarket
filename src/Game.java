@@ -16,6 +16,7 @@ public class Game {
         for (int i = 1; i <= numberOfRounds; i++) {
                 for (Player player : players) {
                     player.increaseAnimalAge();
+                    player.animalsGetSick();
                     boolean option = false;
                     int userChoice = 0;
                     while (!option) {
@@ -23,17 +24,22 @@ public class Game {
                         print("\t== ROUND " + i + " ==");
                         print( player.niceName() + ", it's your turn.\nCurrent Balance: " + player.money +
                                 " SEK.\nCurrent Animals: " + player.animals.size() +
+                                "\nSick Animals: " + player.sickAnimals.size() +
                                 "\n\n[1] Buy Animal" + "\n[2] Buy Food" + "\n[3] Feed Animal" +
-                                "\n[4] Mate Animal" + "\n[5] Sell Animal" + "\n[6] Show " + player.name + " Info");
+                                "\n[4] Mate Animal" + "\n[5] Sell Animal" +
+                                "\n[6] Heal Sick Animal" + "\n[7] Show " + player.name + " Info");
                         try {
                             userChoice = Integer.parseInt(SCANNER.next());
                         } catch (Exception ignore) {
                         }
-                        if (userChoice < 1 || userChoice > 7) {
+                        if (userChoice < 1 || userChoice > 8) {
                             System.out.println("You have to choose a number from the list.");
                         } else {
                             option = true;
                         }
+                    }
+                    if (userChoice != 6 && !player.sickAnimals.isEmpty()){
+                        player.removeSickAnimals();
                     }
                     if (userChoice != 3) {    // If user don't pick 3, animals will lose life value
                         player.notFeedingAnimal();
@@ -45,7 +51,8 @@ public class Game {
                         case 3 -> feedAnimal(player);   // Increase animals life value
                         case 4 -> mateAnimal(player);
                         case 5 -> sellAnimal(player);
-                        case 6 -> player.showPlayerInfo();
+                        case 6 -> healAnimal(player);
+                        case 7 -> player.showPlayerInfo();
                     }
                     sleep(1000);
                 }
@@ -161,7 +168,7 @@ public class Game {
                         }
                     }
                 } catch (Exception e) {
-                    print("Chose an animal from your list, 1-" + count);
+                    print("Choose an animal from your list, 1-" + count);
                 }
             }
             System.out.println(animalToSell.getClass().getSimpleName() + " animal you wish to sell.");
@@ -180,6 +187,51 @@ public class Game {
                 sell = false;
             }
         } while (sell);
+    }
+    public void healAnimal(Player player){
+        boolean heal = true;
+        do {
+            int count = 0;
+            Animal animalToHeal;
+            var priceToHeal = 0.0;
+            print("[PRICE TO HEAL ANIMAL - 20 % of original price]\n");
+            for (var a : player.sickAnimals) {
+                priceToHeal = (a.getPrice() * 0.2);
+                print("[" + ++count + "] " + a.animalName() + " the " + a.getClass().getSimpleName() + " Health: " + a.health
+                        + " Healing Price: " + (int) priceToHeal);
+            }
+            while (true) {
+                try {
+                    var input = prompt("\nWhich animal would you like to heal?" +
+                            "\n[E]  to EXIT");
+                    if (input.toUpperCase().equals("E")) {
+                        print("No healing will be done!");
+                        player.removeSickAnimals();
+                        return;
+                    }
+                    animalToHeal = player.sickAnimals.get(Integer.parseInt(input) - 1);
+                    if (animalToHeal != null) {
+                        break;
+                    }
+                } catch (Exception e) {
+                    print("Choose an animal 1-" + count + " to heal.");
+                }
+            }
+            print("\nYou decided to heal " + animalToHeal.animalName());
+            animalToHeal.healAnimal();
+            player.sickAnimals.remove(animalToHeal);
+            print(priceToHeal + " will be decreased from your money.");
+            player.money -= priceToHeal;
+            if(player.sickAnimals.isEmpty()){
+                print("No sick animals!");
+                return;
+            }
+            var healMore = prompt("\n[H]  Heal another animal.\n[E]  to EXIT.");
+            if(healMore.toUpperCase().equals("E")){
+                player.removeSickAnimals();
+                heal = false;
+            }
+        }while (heal);
     }
     public String prompt(String question) {
         System.out.println(question);

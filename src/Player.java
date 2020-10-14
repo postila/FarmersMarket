@@ -4,6 +4,7 @@ public class Player {
     protected String name;
     protected int money;
     protected ArrayList<Animal> animals;
+    protected ArrayList<Animal> sickAnimals;
     protected ArrayList<Food> foods;
     private final Scanner scanner = new Scanner(System.in);
 
@@ -12,6 +13,7 @@ public class Player {
         this.money = 100000;
         this.animals = new ArrayList<>();
         this.foods = new ArrayList<>();
+        this.sickAnimals = new ArrayList<>();
     }
     public void addAnimal(Animal animal){
         if(money < animal.getPrice() || money == 0) {
@@ -28,6 +30,22 @@ public class Player {
             a.age++;
         }
         removeDeadAnimal();
+    }
+    public void animalsGetSick(){
+        for(var a : animals){
+            print(a.animalName());
+            a.getSick();
+            if(a.sick){
+                sickAnimals.add(a);
+            }
+        }
+    }
+    public void removeSickAnimals(){
+        for(var i = sickAnimals.size()-1; i >= 0; i--){
+            var thisAnimal = sickAnimals.get(i);
+            animals.remove(thisAnimal); // Makes sure that the right animals get removed if not healed
+            sickAnimals.remove(i);
+        }
     }
     public void removeDeadAnimal() {
         if (!animals.isEmpty()) {
