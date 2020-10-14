@@ -20,16 +20,24 @@ public class Store {
             } catch (Exception ignore){}
 
             switch (animalChoice) {
-                case 1 -> {player.addAnimal(new Horse(setName(), setGender()));
+                case 1 -> { player.addAnimal(new Horse(setName(), setGender()));
                 print("Congratulations, you just bought a horse!");
                 sleep(1000);}
-                case 2 -> player.addAnimal(new Cow(setName(),setGender()));
-                case 3 -> player.addAnimal(new Pig(setName(),setGender()));
-                case 4 -> player.addAnimal(new Sheep(setName(),setGender()));
-                case 5 -> player.addAnimal(new Llama(setName(),setGender()));
+                case 2 -> { player.addAnimal(new Cow(setName(),setGender()));
+                print("Congratulations, you just bought a new cow!");
+                sleep(1000);}
+                case 3 -> { player.addAnimal(new Pig(setName(), setGender()));
+                print("Congratulations, you just bought a new pig!");
+                sleep(1000);}
+                case 4 -> { player.addAnimal(new Sheep(setName(), setGender()));
+                print("Congratulations, you just bought a new sheep!");
+                sleep(1000);}
+                case 5 -> {player.addAnimal(new Llama(setName(),setGender()));
+                print("Congratulations, you just bought a new llama!");
+                sleep(1000);}
                 case 6 -> {System.out.println("Come back soon, " + player.name + "!");
                 exit = true;}
-                default -> {System.out.println("Choose an option between 1-6!");
+                default -> {System.out.println("ERROR : Choose an option between 1-6!");
                 sleep(1000);}
             }
         }
