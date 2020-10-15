@@ -105,29 +105,33 @@ public class Player {
         do {
             clear();
             int count = 0;
-            print("[" + name.toUpperCase() + " ANIMALS LIST]");
+            print(" =============== " + name.toUpperCase() + " ANIMALS LIST =============== ");
             for(var a : animals){
-                print("[" + ++count + "] " + a.animalName() + " the " + a.getClass().getSimpleName().toLowerCase() +
+                print(++count + ".\t" + a.animalName() + "   \t Breed: " + a.getClass().getSimpleName() +
                 "\t Gender: " + a.gender);
             }
             try {
-                var inputOne = prompt("\nWhich one of your animals would you like to mate?");
+                var inputOne = prompt("-".repeat(56) +
+                        "\nWhich one of your animals would you like to mate?");
                 animalOne = animals.get(Integer.parseInt(inputOne) - 1);
-                var inputTwo = prompt("Choose a second animal.");
+                var inputTwo = prompt("-".repeat(56) +
+                        "\nChoose a partner to your animal.");
                 animalTwo = animals.get(Integer.parseInt(inputTwo) - 1);
             }catch (Exception e) {
-                print("You have to choose animals between 1-" + count);
+                print("-".repeat(56) +
+                        "\nYou have to choose animals between 1-" + count);
             }
         } while (animalOne == null || animalTwo == null);
             if (!animalOne.getClass().equals(animalTwo.getClass()) || animalOne.gender.equals(animalTwo.gender)) {
-                print("Animals must be of same breed and have opposite genders!");
+                print("-".repeat(56) +
+                        "\nAnimals must be of same breed and have opposite genders!");
                 var input = prompt("\n[C] to CONTINUE.\n[E] to EXIT");
                 if(input.toUpperCase().equals("E")){
                     exit = true;
                 }
             }
             else {
-                print("It's possible to mate your animals!");
+                print("-".repeat(56));
                 animalOne.mateTwoAnimals(animalTwo, this);
                 exit = true;
             }
@@ -135,20 +139,26 @@ public class Player {
     }
     public void showPlayerInfo(){
         int count = 0;
-        System.out.println(this.name.toUpperCase() + " INFORMATION" +
-                "\n------------------------------------\n" +
-                "Current Balance :\t " + this.money + "SEK" +
-                "\n------------------------------------\n" +
-                "[" + niceName() + " Animal List]");
-        for(var a : animals){
-                print(++ count + ". " + a.name.toUpperCase() + " THE " + a.getClass().getSimpleName().toUpperCase() + "\nHealth: " +
-                        (int) a.health + "\t|\tAge: " + a.age + "\t|\tSick: " + a.sick);
+        print("\n" +
+                "\t========= BALANCE ========= \t" + this.money + " SEK" +
+                "\n\n" +
+                "\t========= ANIMALS ========= \t\t "+ animals.size());
+        for(var a : animals) {
+            if (!a.sick) {
+                print(++count + ".\t" + a.name.toUpperCase() + " THE " + a.getClass().getSimpleName().toUpperCase() +
+                        "\n\tHealth: " + (int) a.health + "\t|\tAge: " + a.age + "\t|");
             }
-        System.out.println("------------------------------------");
+        }
+        print("\n" +
+                "\t====== SICK  ANIMALS ====== \t\t " + sickAnimals.size());
+        for(var a : sickAnimals){
+            print(++count + ".\t" + a.name.toUpperCase() + " THE " + a.getClass().getSimpleName().toUpperCase() +
+                    "\n\tHealth: " + (int) a.health + "\t|\tAge: " + a.age + "\t|");
+            }
+        print("\n");
         for(var f : foods){
             print(f.getClass().getSimpleName() + " Amount: " + f.getAmount() + " kg.");
         }
-        sleep(3000);
     }
     public String prompt(String question){  // help method
         System.out.println(question);
