@@ -10,7 +10,7 @@ public class Player {
 
     public Player(String name){
         this.name = name;
-        this.money = 100000;
+        this.money = 150000;
         this.animals = new ArrayList<>();
         this.foods = new ArrayList<>();
         this.sickAnimals = new ArrayList<>();
@@ -146,19 +146,21 @@ public class Player {
         for(var a : animals) {
             if (!a.sick) {
                 print(++count + ".\t" + a.name.toUpperCase() + " THE " + a.getClass().getSimpleName().toUpperCase() +
-                        "\n\tHealth: " + (int) a.health + "\t|\tAge: " + a.age + "\t|");
+                        "\n\tHealth: " + (int) a.health + "\t|\tAge: " + a.age + "\t|\tMax age: " + a.maxAge);
             }
         }
         print("\n" +
                 "\t====== SICK  ANIMALS ====== \t\t " + sickAnimals.size());
+        count = 0;
         for(var a : sickAnimals){
             print(++count + ".\t" + a.name.toUpperCase() + " THE " + a.getClass().getSimpleName().toUpperCase() +
-                    "\n\tHealth: " + (int) a.health + "\t|\tAge: " + a.age + "\t|");
+                    "\n\tHealth: " + (int) a.health + "\t|\tAge: " + a.age + "\t|\tMax age: " + a.maxAge);
             }
-        print("\n");
+        print("\n\t========== FOODS ========== \t");
         for(var f : foods){
-            print(f.getClass().getSimpleName() + " Amount: " + f.getAmount() + " kg.");
+            print("\t " + f.getClass().getSimpleName().toUpperCase() + "\t|\tAmount: " + f.getAmount() + " KG");
         }
+        print("\n");
     }
     public String prompt(String question){  // help method
         System.out.println(question);
