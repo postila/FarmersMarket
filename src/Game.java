@@ -21,19 +21,19 @@ public class Game {
                     int userChoice = 0;
                     while (!option) {
                         clear();
-                        print("\t== ROUND " + i + " ==");
+                        print(" ==================== ROUND " + i + " ====================");
+                        print("\n\t\t\t" + player.name.toUpperCase() + " IT IS YOUR TURN!");
                         player.showPlayerInfo();
-                        print( "\n\n" +player.niceName() + ", it's your turn.\nCurrent Balance: " + player.money +
-                                " SEK.\nCurrent Animals: " + player.animals.size() +
-                                "\nSick Animals: " + player.sickAnimals.size() +
-                                "\n\n[1] Buy Animal" + "\n[2] Buy Food" + "\n[3] Feed Animal" +
-                                "\n[4] Mate Animal" + "\n[5] Sell Animal" +
-                                "\n[6] Heal Sick Animal" + "\n[7] Show " + player.name + " Info");
+                        print("\n ================= FARMERS  MENU =================" +
+                                "\n\t [1] BUY ANIMAL  \t  [4] MATE ANIMAL" +
+                                "\n\t [2] BUY FOOD    \t  [5] SELL ANIMAL" +
+                                "\n\t [3] FEED ANIMAL \t  [6] VISIT THE VET" +
+                                "\n =================================================");
                         try {
                             userChoice = Integer.parseInt(SCANNER.next());
                         } catch (Exception ignore) {
                         }
-                        if (userChoice < 1 || userChoice > 8) {
+                        if (userChoice < 1 || userChoice > 7) {
                             System.out.println("You have to choose a number from the list.");
                         } else {
                             option = true;
@@ -53,32 +53,35 @@ public class Game {
                         case 4 -> mateAnimal(player);
                         case 5 -> sellAnimal(player);
                         case 6 -> healAnimal(player);
-                        case 7 -> player.showPlayerInfo();
                     }
                     sleep(1000);
                 }
             checkIfGameOver();
             if(i == numberOfRounds){
                 clear();
-                print("GAME IS OVER!\n\n");
+                print(" =================  G A M E   O V E R  =================\n");
                 checkForWinner();
                 break;
             }
             if (players.isEmpty()){
                 clear();
-                print("== GAME OVER ==\n   NO WINNER");
+                print("\n =================  G A M E  O V E R  ================= " +
+                        "\n    NO WINNER THIS TIME - BETTER LUCK NEXT TIME");
                 return;     // If list of players is empty, end game.
             }
         }
     }
 
     public void buyAnimal(Player player) {
+        clear();
         store.createAnimal(player);
     }
     public void buyFood(Player player) {
+        clear();
         store.deliverFood(player);
     }
     public void feedAnimal(Player player) {
+        clear();
         int kilos = 0;
         Food userChoiceOfFood = null;
         int count = 0;
@@ -87,7 +90,9 @@ public class Game {
                     "  \tAmount: " + f.getAmount());
         }
         if(player.foods.isEmpty()){
-            print("You don't have any food!");
+            print("\n ======================  NOTICE  ====================== " +
+                    "\n NO FOOD REGISTERED ");
+            sleep(1000);
             return;
         }
         do {
@@ -136,8 +141,10 @@ public class Game {
         }
     }
     public void mateAnimal(Player player) {
+        clear();
         if(player.animals.size() < 2){
-            print("Oh no.. Not a possible move! You must have at least two animals!");
+            print("\n" + " ======================  NOTICE  ====================== " +
+                    "\n MINIMUM ANIMALS REQUIRED: 2");
             sleep(1000);
         }
         else {
@@ -145,21 +152,31 @@ public class Game {
         }
     }
     public void sellAnimal(Player player) {
+        clear();
         boolean sell = true;
         do {
             var count = 0;
             Animal animalToSell;
+            double sellingPrice = 0.0;
+            print(" ================== SELL YOUR ANIMAL ================== " +
+                    "\n  NOTICE!  Price is based on animals health percentage." +
+                    "\n  And each animal year will cause price reduction by 2%\n");
             for (var a : player.animals) {
-                print("[" + ++count + "] " + a.name + " the " + a.getClass().getSimpleName().toLowerCase() +
-                        " current health value: " + a.health);
+                var priceLossDueToAge = (a.age * 0.02); // Animal lose 2% in value due to age
+                var newPrice = a.getPrice() - (a.getPrice() * priceLossDueToAge);
+                sellingPrice = (newPrice * (a.health / 100));
+                print(++count + ".\t" + a.name.toUpperCase() + "\n\tFinal Price: " + (int)sellingPrice + " SEK");
             }
             while (true) {
                 try {
                     if (!player.animals.isEmpty()) {
-                        var input = prompt("What animal from you list would you like to sell?\n" +
-                                "[E] to exit.");
+                        var input = prompt("\n" + "-".repeat(56) +
+                                "\nWhat animal from you list would you like to sell?\n" +
+                                "[E] to exit.\n" +
+                                "-".repeat(56));
                         if(input.toUpperCase().equals("E")){
-                            print("So, you changed your mind!");
+                            print("-".repeat(56) +
+                                    "\n\t WELCOME BACK ANOTHER TIME ");
                             sleep(1000);
                             return;
                         }
@@ -169,41 +186,42 @@ public class Game {
                         }
                     }
                 } catch (Exception e) {
-                    print("Choose an animal from your list, 1-" + count);
+                    print("-".repeat(56)+
+                            "\nChoose an animal from your list, 1-" + count);
                 }
             }
-            System.out.println(animalToSell.getClass().getSimpleName() + " animal you wish to sell.");
-            var priceLossDueToAge = (animalToSell.age * 0.02); // Animal lose 2% in value due to age
-            var newPrice = animalToSell.getPrice() - (animalToSell.getPrice() * priceLossDueToAge);
-            var sellingPrice = (newPrice * (animalToSell.health / 100));
-            print("Selling Price: " + (int) sellingPrice);
             player.money += sellingPrice;
             player.animals.remove(animalToSell);
             if (player.animals.isEmpty()) {
-                print("You don't have any animals left.");
+                print(" ================= NO MORE ANIMALS ================= ");
                 sell = false;
             }
         } while (sell);
     }
     public void healAnimal(Player player){
+        clear();
         boolean heal = true;
         do {
             int count = 0;
             Animal animalToHeal;
             var priceToHeal = 0.0;
-            print("[PRICE TO HEAL ANIMAL - 20 % of original price]\n");
+            print(" ============ WELCOME TO THE VETERINARIAN'S ============ \n");
             for (var a : player.sickAnimals) {
                 priceToHeal = (a.getPrice() * 0.2);
-                print("[" + ++count + "] " + a.animalName() + " the " + a.getClass().getSimpleName() + " Health: " + a.health
-                        + " Healing Price: " + (int) priceToHeal);
+                print("[" + ++count + "]\t" + a.animalName() + " the " + a.getClass().getSimpleName() +
+                        "\n\tHealth: " + a.health + "\tVeterinarian Costs: " + (int) priceToHeal);
             }
             while(true) {
                 try {
-                    var input = prompt("\nWhich animal would you like to take to the vet?" +
-                            "\n[E]  to EXIT");
+                    var input = prompt("\n"+ "-".repeat(56) +
+                            "\nWhich animal would you like to give a treatment?" +
+                            "\n[E]  to EXIT" +
+                            "\n"+ "-".repeat(56) );
                     if (input.toUpperCase().equals("E")) {
-                        print("No healing will be done!");
+                        print("-".repeat(56)  +
+                                "\nWe respect your decision!\nNo treatment will be done.");
                         player.removeSickAnimals();
+                        sleep(1000);
                         return;
                     }
                     animalToHeal = player.sickAnimals.get(Integer.parseInt(input) - 1);
@@ -211,12 +229,25 @@ public class Game {
                         break;
                     }
                 } catch (Exception e) {
-                    print("Choose an animal 1-" + count + " to heal.");
+                    print("-".repeat(56) +
+                            "\nChoose an animal 1-" + count + " to heal.");
                 }
             }
+            if(player.money >= priceToHeal){
+                player.money -= priceToHeal;
+            } else {
+                print("=======================  NOTICE  ======================" +
+                        "\n    YOU DON'T HAVE ENOUGH MONEY FOR A TREATMENT");
+                player.sickAnimals.remove(animalToHeal);
+                player.animals.remove(animalToHeal);
+                sleep(1000);
+                break;
+            }
+
             animalToHeal.healAnimal();
             if(animalToHeal.sick) {
-                print("I'm sorry, your " + animalToHeal.getClass().getSimpleName() + " did not make it.");
+                print("-".repeat(56)  +
+                        "\n I'm sorry, your " + animalToHeal.getClass().getSimpleName().toLowerCase() + " did not make it.");
                 player.sickAnimals.remove(animalToHeal);
                 player.animals.remove(animalToHeal);
             }
@@ -225,7 +256,6 @@ public class Game {
             }
             player.money -= priceToHeal;
             if(player.sickAnimals.isEmpty()){
-                print("No sick animals left!");
                 heal = false;
             }
         }while (heal);
@@ -244,14 +274,14 @@ public class Game {
         clear();
         for(var i = players.size() -1; i >= 0; i--){
             if (players.get(i).money <= 0 && players.get(i).animals.isEmpty()) {
-                print("GAME OVER " + players.get(i).name.toUpperCase() + "\nYou're out of the game!");
+                print(" ================== GAME OVER " + players.get(i).name.toUpperCase() + " ================== ");
                 sleep(3000);
                 players.remove(i);
             }
         }
     }
     public void checkForWinner() {
-        print("\t\t[ S C O R E  B O A R D ]");
+        print(" ===================== SCORE BOARD ===================== ");
         if (!players.isEmpty()) {
             for (var player : players) {
                 for (var animal : player.animals) {
@@ -263,7 +293,7 @@ public class Game {
         int count = 0;
         players.sort(new PlayerScoreBoard());   // Sorts players list of money from low to high
         for(var i = players.size()-1; i >= 0; i--){     // Loop backwards to get the player with most money first
-            print(++count + ". " + players.get(i).name.toUpperCase() + "\t\t Farmers total worth: " + players.get(i).money);
+            print(++count + ". " + players.get(i).name.toUpperCase() + "\t\t FINAL FARM WORTH: " + players.get(i).money);
         }
     }
     public void sleep(int ms){
