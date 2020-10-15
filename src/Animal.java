@@ -60,7 +60,9 @@ public abstract class Animal {
     public void healAnimal(){
         boolean healed = RANDOM.nextBoolean();
         if(healed) {
-            print("Congratulations, your animal is healthy again!");
+            print("-".repeat(56) +
+                    "\nWe are happy to inform that your animal is well again!\n");
+            sleep(1000);
             this.sick = false;
         }
     }
@@ -72,19 +74,19 @@ public abstract class Animal {
         if(trueOrFalse){
             if(animal instanceof Horse){
                 var newGender = setGender();
-                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
+                print("CONGRATULATIONS! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
                 var newName = prompt("Now you have to give it a name: ");
                 player.animals.add(new Horse(newName, newGender));
             }
             if(animal instanceof Cow){
                 var newGender = setGender();
-                print("Congratulations! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
+                print("CONGRATULATIONS! You got a new " + newGender + " " + animal.getClass().getSimpleName().toLowerCase());
                 var newName = prompt("Now you have to give it a name: ");
                 player.animals.add(new Cow(newName, newGender));
             }
             if(animal instanceof Pig) {
                 var numberOfPiglets = RANDOM.nextInt(8) + 3; // A sow can have between 3-10 piglets
-                print("Congratulations! You just got " + numberOfPiglets + " piglets!");
+                print("CONGRATULATIONS! \nYou just got " + numberOfPiglets + " piglets!");
                 for (var i = 1; i <= numberOfPiglets; i++) {
                     var newGender = setGender();
                     var newName = prompt("Name " + newGender + " piglet number " + i + ":");
@@ -93,7 +95,7 @@ public abstract class Animal {
             }
             if(animal instanceof Sheep) {
                 int numberOfLambs = RANDOM.nextInt(3) + 1;  // A sheep can have between 1-3 lambs
-                print("Congratulations! You just got " + numberOfLambs + " lambs!");
+                print("CONGRATULATIONS! \nYou just got " + numberOfLambs + " lambs!");
                 for (var i = 1; i <= numberOfLambs; i++) {
                     var newGender = setGender();
                     var newName = prompt("Name " + newGender + " lamb number " + i + ":");
