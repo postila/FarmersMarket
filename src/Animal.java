@@ -40,7 +40,6 @@ public abstract class Animal {
     public void increaseHealth(int kilo){
         if(health <= 100){
             health = (int)health * ((0.1 * kilo) + 1);
-            System.out.println((int)health + " that will be increased.");
                 if(health > 100){
                 health = 100;
             }
