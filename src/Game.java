@@ -81,60 +81,90 @@ public class Game {
         store.deliverFood(player);
     }
     public void feedAnimal(Player player) {
-        clear();
-        int kilos = 0;
-        Food userChoiceOfFood = null;
-        int count = 0;
-        for (var f : player.foods) {
-            System.out.println("[" + ++count + "]  Food: " + f.getClass().getSimpleName().toUpperCase() +
-                    "  \tAmount: " + f.getAmount());
-        }
-        if(player.foods.isEmpty()){
-            print("\n ======================  NOTICE  ====================== " +
-                    "\n NO FOOD REGISTERED ");
-            sleep(1000);
-            return;
-        }
-        do {
-            try {
-                var input = prompt("Enter number attached to food: ");
-                userChoiceOfFood = player.foods.get(Integer.parseInt(input) - 1);
-            } catch (Exception ignore) {
+        while (true) {
+            clear();
+            int kilos = 0;
+            Food userChoiceOfFood = null;
+            int count = 0;
+            print(" ==================  TIME TO FEED  ================== ");
+            for (var f : player.foods) {
+                System.out.println("[" + ++count + "]  Food: " + f.getClass().getSimpleName().toUpperCase() +
+                        "  \tAmount: " + f.getAmount());
             }
-            try {
-                kilos = Integer.parseInt(prompt("Amount of kilos to feed your animals:"));
-            } catch (Exception ignore) {
+            if (player.foods.isEmpty()) {
+                print("\n ======================  NOTICE  ====================== " +
+                        "\n NO FOOD REGISTERED ");
+                sleep(1000);
+                return;
             }
-        } while (userChoiceOfFood == null || kilos == 0);
+            do {
+                try {
+                    var input = prompt("-".repeat(56) +
+                            "\nWhat food would you like to feed." +
+                            "\n[E] to EXIT.");
+                    if(input.toUpperCase().equals("E")){
+                        print("\n NO MORE FEEDING");
+                        return;
+                    }
+                    userChoiceOfFood = player.foods.get(Integer.parseInt(input) - 1);
+                } catch (Exception ignore) {
+                }
+                try {
+                    kilos = Integer.parseInt(prompt("-".repeat(56) +
+                            "\nAmount of kilos to feed your animals:"));
+                } catch (Exception ignore) {
+                }
+            } while (userChoiceOfFood == null || kilos == 0);
 
-        for (var a : player.animals) {
             if (userChoiceOfFood instanceof Hay) {
-                if (a instanceof Horse || a instanceof Llama || a instanceof Sheep) {
-                    for (var i = 0; i < kilos; i++) {
-                        if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
-                            a.increaseHealth(1);
-                            player.reduceFood(userChoiceOfFood, 1);
+                print(".".repeat(56) +
+                        "\n\t HORSE \t|\t LLAMA \t|\t SHEEP");
+                for (var a : player.animals) {
+                    if (a instanceof Horse || a instanceof Llama || a instanceof Sheep) {
+                        for (var i = 0; i < kilos; i++) {
+                            if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
+                                a.increaseHealth(1);
+                                player.reduceFood(userChoiceOfFood, 1);
+                            }
                         }
+                    } else {
+                        a.decreaseHealth();
+                        a.animalDied();
                     }
                 }
             }
-            if (userChoiceOfFood instanceof Grass) {
-                if (a instanceof Cow || a instanceof Horse) {
-                    for (var i = 0; i < kilos; i++) {
-                        if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
-                            a.increaseHealth(1);
-                            player.reduceFood(userChoiceOfFood, 1);
+                if (userChoiceOfFood instanceof Grass) {
+                    print("-".repeat(56) +
+                            "\n\t HORSE \t|\t COW ");
+                    for (var a : player.animals) {
+                        if (a instanceof Cow || a instanceof Horse) {
+                            for (var i = 0; i < kilos; i++) {
+                                if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
+                                    a.increaseHealth(1);
+                                    player.reduceFood(userChoiceOfFood, 1);
+                                }
+                            }
+                        } else {
+                            a.decreaseHealth();
+                            a.animalDied();
                         }
                     }
                 }
-            }
-            if (userChoiceOfFood instanceof Grain) {
-                if (a instanceof Pig || a instanceof Llama || a instanceof Sheep) {
-                    for (var i = 0; i < kilos; i++) {
-                        if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
-                            a.increaseHealth(1);
-                            player.reduceFood(userChoiceOfFood, 1);
+                if (userChoiceOfFood instanceof Grain) {
+                    print("-".repeat(56) +
+                            "\nANIMALS ABLE TO FEED:\t LLAMA \t|\t SHEEP \t|\t PIG");
+                    for (var a : player.animals) {
+                        if (a instanceof Pig || a instanceof Llama || a instanceof Sheep) {
+                            for (var i = 0; i < kilos; i++) {
+                                if (a.health < 100 && userChoiceOfFood.getAmount() > 0) {
+                                    a.increaseHealth(1);
+                                    player.reduceFood(userChoiceOfFood, 1);
+                                }
+                            }
                         }
+                        else {
+                            a.decreaseHealth();
+                            a.animalDied();
                     }
                 }
             }
